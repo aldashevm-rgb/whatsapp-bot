@@ -4,7 +4,7 @@ import { saveOrder } from "../db.js";
 
 const userState = {};
 
-export async function handleMessage(from, text) {
+export async function handleMessage(from, text, platform = "telegram") {
   const lower = text.toLowerCase().trim();
 
   if (!userState[from]) {
@@ -13,13 +13,14 @@ export async function handleMessage(from, text) {
 
   const state = userState[from];
 
-  if (state.step === "start") {
+  if (state.step === "start" || lower === "/start") {
     userState[from].step = "menu";
     await sendMessage(from,
       "Сәлем! Привет! 👋\n\n" +
       "1️⃣ Заказать / Тапсырыс беру\n" +
       "2️⃣ Задать вопрос / Сұрақ қою\n" +
-      "3️⃣ Менеджер"
+      "3️⃣ Менеджер",
+      platform
     );
     return;
   }
@@ -27,15 +28,15 @@ export async function handleMessage(from, text) {
   if (state.step === "menu") {
     if (lower === "1" || lower.includes("заказ") || lower.includes("тапсырыс")) {
       userState[from].step = "order_name";
-      await sendMessage(from, "Напишите ваше имя / Атыңызды жазыңыз:");
+      await sendMessage(from, "Напишите ваше имя / Атыңызды жазыңыз:", platform);
     } else if (lower === "2" || lower.includes("вопрос")) {
       userState[from].step = "ai_chat";
-      await sendMessage(from, "Задайте вопрос / Сұрағыңызды жазыңыз:");
+      await sendMessage(from, "Задайте вопрос / Сұрағыңызды жазыңыз:", platform);
     } else if (lower === "3" || lower.includes("менеджер")) {
       userState[from].step = "start";
-      await sendMessage(from, "Менеджер скоро свяжется! ✅");
+      await sendMessage(from, "Менеджер скоро свяжется! ✅", platform);
     } else {
-      await sendMessage(from, "Выберите:\n1️⃣ Заказать\n2️⃣ Вопрос\n3️⃣ Менеджер");
+      await sendMessage(from, "Выберите:\n1️⃣ Заказать\n2️⃣ Вопрос\n3️⃣ Менеджер", platform);
     }
     return;
   }
@@ -43,7 +44,7 @@ export async function handleMessage(from, text) {
   if (state.step === "order_name") {
     userState[from].name = text;
     userState[from].step = "order_details";
-    await sendMessage(from, text + ", что хотите заказать? / Не тапсырыс беруді қалайсыз?");
+    await sendMessage(from, text + ", что хотите заказать?\nНе тапсырыс беруді қалайсыз?", platform);
     return;
   }
 
@@ -56,19 +57,19 @@ export async function handleMessage(from, text) {
     };
     saveOrder(order);
     userState[from].step = "start";
-    await sendMessage(from, "✅ Заказ принят! Менеджер свяжется скоро!\nТапсырыс қабылданды!");
+    await sendMessage(from, "✅ Заказ принят!\nТапсырыс қабылданды!\n\nМенеджер свяжется скоро!", platform);
     return;
   }
 
   if (state.step === "ai_chat") {
-    await sendMessage(from, "⏳ Думаю...");
+    await sendMessage(from, "⏳ Думаю...", platform);
     const reply = await askClaude(text);
-    await sendMessage(from, reply);
+    await sendMessage(from, reply, platform);
     return;
   }
 
-  if (lower === "меню" || lower === "мәзір") {
+  if (lower === "меню" || lower === "мәзір" || lower === "/menu") {
     userState[from].step = "start";
-    await handleMessage(from, "start");
+    await handleMessage(from, "/start", platform);
   }
 }
