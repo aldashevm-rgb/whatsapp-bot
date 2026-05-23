@@ -1,75 +1,59 @@
 import { askClaude } from "./aiChat.js";
 import { sendMessage } from "../whatsapp.js";
+import { startFollowUp, cancelFollowUp } from "./followup.js";
 import { saveOrder } from "../db.js";
 
-const userState = {};
+const userHistory = {};
+const userStatus = {};
 
-export async function handleMessage(from, text, platform = "telegram") {
-  const lower = text.toLowerCase().trim();
+const STOP_WORDS = [
+  "не нужно", "не надо", "передумал", "передумала",
+  "спасибо не нужно", "не интересно", "откажусь", "не актуально"
+];
 
-  if (!userState[from]) {
-    userState[from] = { step: "start" };
-  }
+export async function handleMessage(chatId, text, platform = "telegram") {
+  const lower = text.toLowerCase();
 
-  const state = userState[from];
+  if (!userHistory[chatId]) userHistory[chatId] = [];
+  if (!userStatus[chatId]) userStatus[chatId] = "active";
 
-  if (state.step === "start" || lower === "/start") {
-    userState[from].step = "menu";
-    await sendMessage(from,
-      "Сәлем! Привет! 👋\n\n" +
-      "1️⃣ Заказать / Тапсырыс беру\n" +
-      "2️⃣ Задать вопрос / Сұрақ қою\n" +
-      "3️⃣ Менеджер",
+  cancelFollowUp(chatId);
+
+  const isStop = STOP_WORDS.some(word => lower.includes(word));
+  if (isStop) {
+    userStatus[chatId] = "stopped";
+    await sendMessage(chatId,
+      "Понял вас! Спасибо за честность 🤝 Если в будущем понадобится система роста продаж — всегда рады помочь. Удачи в бизнесе!",
       platform
     );
     return;
   }
 
-  if (state.step === "menu") {
-    if (lower === "1" || lower.includes("заказ") || lower.includes("тапсырыс")) {
-      userState[from].step = "order_name";
-      await sendMessage(from, "Напишите ваше имя / Атыңызды жазыңыз:", platform);
-    } else if (lower === "2" || lower.includes("вопрос")) {
-      userState[from].step = "ai_chat";
-      await sendMessage(from, "Задайте вопрос / Сұрағыңызды жазыңыз:", platform);
-    } else if (lower === "3" || lower.includes("менеджер")) {
-      userState[from].step = "start";
-      await sendMessage(from, "Менеджер скоро свяжется! ✅", platform);
-    } else {
-      await sendMessage(from, "Выберите:\n1️⃣ Заказать\n2️⃣ Вопрос\n3️⃣ Менеджер", platform);
-    }
-    return;
+  if (userStatus[chatId] === "stopped") {
+    userStatus[chatId] = "active";
   }
 
-  if (state.step === "order_name") {
-    userState[from].name = text;
-    userState[from].step = "order_details";
-    await sendMessage(from, text + ", что хотите заказать?\nНе тапсырыс беруді қалайсыз?", platform);
-    return;
+  userHistory[chatId].push({ role: "user", content: text });
+
+  const reply = await askClaude(text, userHistory[chatId].slice(0, -1));
+
+  userHistory[chatId].push({ role: "assistant", content: reply });
+
+  if (userHistory[chatId].length > 20) {
+    userHistory[chatId] = userHistory[chatId].slice(-20);
   }
 
-  if (state.step === "order_details") {
-    const order = {
-      phone: from,
-      name: userState[from].name,
+  await sendMessage(chatId, reply, platform);
+
+  if (userHistory[chatId].length <= 2) {
+    saveOrder({
+      phone: chatId,
+      name: "Новый лид",
       details: text,
-      date: new Date().toLocaleString("ru-RU")
-    };
-    saveOrder(order);
-    userState[from].step = "start";
-    await sendMessage(from, "✅ Заказ принят!\nТапсырыс қабылданды!\n\nМенеджер свяжется скоро!", platform);
-    return;
+      date: new Date().toLocaleString("ru-RU"),
+      platform
+    });
   }
 
-  if (state.step === "ai_chat") {
-    await sendMessage(from, "⏳ Думаю...", platform);
-    const reply = await askClaude(text);
-    await sendMessage(from, reply, platform);
-    return;
-  }
-
-  if (lower === "меню" || lower === "мәзір" || lower === "/menu") {
-    userState[from].step = "start";
-    await handleMessage(from, "/start", platform);
-  }
+  startFollowUp(chatId, (id, msg) => sendMessage(id, msg, platform));
 }
