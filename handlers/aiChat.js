@@ -2,8 +2,7 @@ import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 
-const SYSTEM_PROMPT = `Ты — Алина, менеджер по продажам компании SPECTO.
-Ты общаешься с потенциальным клиентом в мессенджере.
+const SYSTEM_PROMPT = `Ты — Алина, менеджер по продажам компании SPECTO. Ты общаешься с потенциальным клиентом в мессенджере.
 
 О SPECTO:
 - Система роста продаж под ключ
@@ -19,12 +18,10 @@ const SYSTEM_PROMPT = `Ты — Алина, менеджер по продажа
 - Пиши коротко — максимум 3-4 предложения
 - Говори как живой человек, не как робот
 - Сначала выясни какой бизнес и какая главная проблема
-- Потом презентуй SPECTO под его конкретную боль
 - Если говорит дорого — объясни что 10% только с продаж, риска нет
 - Если говорит подумаю — спроси что именно смущает
-- Если говорит уже пробовали — спроси что именно не сработало
-- Закрывай фразой типа: Когда вам удобно созвониться на 20 минут?
-- Если клиент говорит не нужно или передумал — вежливо попрощайся`;
+- Закрывай фразой: Когда вам удобно созвониться на 20 минут?
+- Если клиент говорит не нужно — вежливо попрощайся`;
 
 export async function askClaude(userMessage, history = []) {
   try {
@@ -47,7 +44,7 @@ export async function askClaude(userMessage, history = []) {
     return data.content?.[0]?.text || "Извините, попробуйте позже.";
   } catch (err) {
     console.error("Ошибка Claude:", err);
-    return "Извините, технические неполадки. Свяжусь с вами чуть позже!";
+    return "Извините, технические неполадки!";
   }
 }
 
@@ -60,7 +57,7 @@ export async function textToVoice(text) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "xi-api-key": process.env.ELEVENLABS_API_KEY,
+          "xi-api-key": process.env.ELEVENLABS_API_KEY
         },
         body: JSON.stringify({
           text,
@@ -69,9 +66,9 @@ export async function textToVoice(text) {
             stability: 0.5,
             similarity_boost: 0.75,
             style: 0.3,
-            use_speaker_boost: true,
-          },
-        }),
+            use_speaker_boost: true
+          }
+        })
       }
     );
     if (!res.ok) return null;
