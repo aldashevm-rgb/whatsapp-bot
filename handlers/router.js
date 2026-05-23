@@ -1,31 +1,32 @@
-import { askClaude } from "./aiChat.js";
-import { sendMessage } from "../whatsapp.js";
+import { askClaude, textToVoice, shouldUseVoice } from "./aiChat.js";
+import { sendMessage, sendVoice } from "../whatsapp.js";
 import { startFollowUp, cancelFollowUp } from "./followup.js";
 import { saveOrder } from "../db.js";
+import fs from "fs";
 
 const userHistory = {};
 const userStatus = {};
+const userMessageCount = {};
 
 const STOP_WORDS = [
   "не нужно", "не надо", "передумал", "передумала",
   "спасибо не нужно", "не интересно", "откажусь", "не актуально"
 ];
 
-export async function handleMessage(chatId, text, platform = "telegram") {
+export async function handleMessage(chatId, text, platform = "telegram", isVoiceMessage = false) {
   const lower = text.toLowerCase();
 
   if (!userHistory[chatId]) userHistory[chatId] = [];
   if (!userStatus[chatId]) userStatus[chatId] = "active";
+  if (!userMessageCount[chatId]) userMessageCount[chatId] = 0;
 
+  userMessageCount[chatId]++;
   cancelFollowUp(chatId);
 
   const isStop = STOP_WORDS.some(word => lower.includes(word));
   if (isStop) {
     userStatus[chatId] = "stopped";
-    await sendMessage(chatId,
-      "Понял вас! Спасибо за честность 🤝 Если в будущем понадобится система роста продаж — всегда рады помочь. Удачи в бизнесе!",
-      platform
-    );
+    await sendMessage(chatId, "Понял вас! Спасибо за честность 🤝 Если в будущем понадобится система роста продаж — всегда рады помочь. Удачи в бизнесе!", platform);
     return;
   }
 
@@ -43,9 +44,22 @@ export async function handleMessage(chatId, text, platform = "telegram") {
     userHistory[chatId] = userHistory[chatId].slice(-20);
   }
 
-  await sendMessage(chatId, reply, platform);
+  const useVoice = process.env.ELEVENLABS_API_KEY &&
+    shouldUseVoice(userMessageCount[chatId], isVoiceMessage);
 
-  if (userHistory[chatId].length <= 2) {
+  if (useVoice) {
+    const voiceFile = await textToVoice(reply);
+    if (voiceFile) {
+      await sendVoice(chatId, voiceFile, platform);
+      fs.unlinkSync(voiceFile);
+    } else {
+      await sendMessage(chatId, reply, platform);
+    }
+  } else {
+    await sendMessage(chatId, reply, platform);
+  }
+
+  if (userMessageCount[chatId] === 1) {
     saveOrder({
       phone: chatId,
       name: "Новый лид",
@@ -55,14 +69,5 @@ export async function handleMessage(chatId, text, platform = "telegram") {
     });
   }
 
-  // Уведомление тебе
-await fetch("https://api.telegram.org/bot" + process.env.TELEGRAM_TOKEN + "/sendMessage", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    chat_id: "7270888699",
-    text: "🔥 Новый лид!\n\nНаписал: " + chatId + "\nСообщение: " + text
-  })
-});
-startFollowUp(chatId, (id, msg) => sendMessage(id, msg, platform));
+  startFollowUp(chatId, (id, msg) => sendMessage(id, msg, platform));
 }
