@@ -4,28 +4,16 @@ import { handleMessage } from "./handlers/router.js";
 const app = express();
 app.use(express.json());
 
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "my_bot_token_123";
+const TOKEN = process.env.TELEGRAM_TOKEN;
 
-app.get("/webhook", (req, res) => {
-  const mode = req.query["hub.mode"];
-  const token = req.query["hub.verify_token"];
-  const challenge = req.query["hub.challenge"];
-  if (mode === "subscribe" && token === VERIFY_TOKEN) {
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
-  }
-});
-
-app.post("/webhook", async (req, res) => {
+// Telegram Webhook
+app.post("/telegram", async (req, res) => {
   try {
-    const entry = req.body.entry?.[0];
-    const changes = entry?.changes?.[0];
-    const message = changes?.value?.messages?.[0];
-    if (message) {
-      const from = message.from;
-      const text = message.text?.body || "";
-      await handleMessage(from, text);
+    const message = req.body.message;
+    if (message && message.text) {
+      const chatId = String(message.chat.id);
+      const text = message.text;
+      await handleMessage(chatId, text, "telegram");
     }
     res.sendStatus(200);
   } catch (err) {
@@ -41,4 +29,14 @@ app.get("/orders", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Бот запущен на порту " + PORT));
+app.listen(PORT, async () => {
+  console.log("Бот запущен на порту " + PORT);
+  // Регистрируем Webhook в Telegram
+  const url = process.env.RAILWAY_PUBLIC_DOMAIN
+    ? "https://" + process.env.RAILWAY_PUBLIC_DOMAIN + "/telegram"
+    : null;
+  if (url) {
+    await fetch(`https://api.telegram.org/bot${TOKEN}/setWebhook?url=${url}`);
+    console.log("Webhook установлен: " + url);
+  }
+});
