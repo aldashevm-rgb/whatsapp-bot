@@ -1,4 +1,4 @@
-import { askClaude, textToVoice, shouldUseVoice } from "./aiChat.js";
+import { askClaude, textToVoice } from "./aiChat.js";
 import { sendMessage, sendVoice } from "../whatsapp.js";
 import { startFollowUp, cancelFollowUp } from "./followup.js";
 import { saveOrder } from "../db.js";
@@ -44,8 +44,8 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
     userHistory[chatId] = userHistory[chatId].slice(-20);
   }
 
-  const useVoice = process.env.ELEVENLABS_API_KEY &&
-    shouldUseVoice(userMessageCount[chatId], isVoiceMessage);
+  // Голос на каждое сообщение
+  const useVoice = !!process.env.ELEVENLABS_API_KEY;
 
   if (useVoice) {
     const voiceFile = await textToVoice(reply);
