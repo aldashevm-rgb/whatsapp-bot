@@ -6,7 +6,6 @@ app.use(express.json());
 
 const TOKEN = process.env.TELEGRAM_TOKEN;
 
-// Telegram Webhook
 app.post("/telegram", async (req, res) => {
   try {
     const message = req.body.message;
@@ -22,21 +21,41 @@ app.post("/telegram", async (req, res) => {
   }
 });
 
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "my_bot_token_123";
+app.get("/webhook", (req, res) => {
+  if (req.query["hub.verify_token"] === VERIFY_TOKEN) {
+    res.send(req.query["hub.challenge"]);
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+app.post("/webhook", async (req, res) => {
+  try {
+    const message = req.body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+    if (message) {
+      const from = message.from;
+      const text = message.text?.body || "";
+      await handleMessage(from, text, "whatsapp");
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
 app.get("/orders", async (req, res) => {
   const { getOrders } = await import("./db.js");
-  const orders = getOrders();
-  res.json(orders);
+  res.json(getOrders());
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
-  console.log("Бот запущен на порту " + PORT);
-  // Регистрируем Webhook в Telegram
-  const url = process.env.RAILWAY_PUBLIC_DOMAIN
-    ? "https://" + process.env.RAILWAY_PUBLIC_DOMAIN + "/telegram"
-    : null;
-  if (url) {
-    await fetch(`https://api.telegram.org/bot${TOKEN}/setWebhook?url=${url}`);
-    console.log("Webhook установлен: " + url);
+  console.log("SPECTO бот запущен!");
+  const domain = process.env.RAILWAY_PUBLIC_DOMAIN;
+  if (domain && TOKEN) {
+    const url = "https://" + domain + "/telegram";
+    await fetch("https://api.telegram.org/bot" + TOKEN + "/setWebhook?url=" + url);
+    console.log("Webhook: " + url);
   }
 });
