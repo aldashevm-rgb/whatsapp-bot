@@ -34,18 +34,18 @@ export async function sendVoice(to, filePath, platform = "telegram") {
     form.append("chat_id", to);
     form.append("voice", fs.createReadStream(filePath), {
       filename: "voice.mp3",
-      contentType: "audio/mpeg",
+      contentType: "audio/mpeg"
     });
     await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendVoice`, {
       method: "POST",
-      body: form,
+      body: form
     });
-  } else {
-    const uploadForm = new FormData();
-    uploadForm.append("file", fs.createReadStream(filePath), {
-      filename: "voice.mp3",
-      contentType: "audio/mpeg",
-    });
-    uploadForm.append("messaging_product", "whatsapp");
-    uploadForm.append("type", "audio/mpeg");
-    const uploadRes = await fetch(​​​​​​​​​​​​​​​​
+  }
+}
+
+export async function broadcast(numbers, text, platform = "telegram") {
+  for (const num of numbers) {
+    await sendMessage(num, text, platform);
+    await new Promise(r => setTimeout(r, 1500));
+  }
+}
