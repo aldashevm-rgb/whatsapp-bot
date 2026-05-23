@@ -55,5 +55,14 @@ export async function handleMessage(chatId, text, platform = "telegram") {
     });
   }
 
-  startFollowUp(chatId, (id, msg) => sendMessage(id, msg, platform));
+  // Уведомление тебе
+await fetch("https://api.telegram.org/bot" + process.env.TELEGRAM_TOKEN + "/sendMessage", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    chat_id: "7270888699",
+    text: "🔥 Новый лид!\n\nНаписал: " + chatId + "\nСообщение: " + text
+  })
+});
+startFollowUp(chatId, (id, msg) => sendMessage(id, msg, platform));
 }
