@@ -48,7 +48,7 @@ export async function textToVoice(text) {
     console.log("ElevenLabs вызван");
     const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM";
     const res = await fetch(
-  `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID},
+      https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID},
       {
         method: "POST",
         headers: {
