@@ -23,8 +23,7 @@ const SYSTEM_PROMPT = `Ты — Алина, менеджер по продажа
 - Закрывай фразой: Когда вам удобно созвониться на 20 минут?
 - Если клиент говорит не нужно — вежливо попрощайся`;
 
-export async function askClaude(userMessage, history = []) {
-  try {
+export async function askClaude(userMessage, histo
     const messages = [...history, { role: "user", content: userMessage }];
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -49,6 +48,7 @@ export async function askClaude(userMessage, history = []) {
 }
 
 export async function textToVoice(text) {
+  console.log("ElevenLabs вызван, ключ:", process.env.ELEVENLABS_API_KEY ? "есть" : "нет");
   try {
     const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM";
     const res = await fetch(
