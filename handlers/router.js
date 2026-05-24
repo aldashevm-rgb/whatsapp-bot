@@ -13,7 +13,7 @@ const STOP_WORDS = [
   "спасибо не нужно", "не интересно", "откажусь", "не актуально"
 ];
 
-const CALENDLY_LINK = "https://calendly.com/specto/20min";
+const CALENDLY_LINK = process.env.CALENDLY_LINK || "https://calendly.com/aldashevm83/30min";
 
 export async function handleMessage(chatId, text, platform = "telegram", isVoiceMessage = false) {
   const lower = text.toLowerCase();
@@ -46,12 +46,16 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
     userHistory[chatId] = userHistory[chatId].slice(-20);
   }
 
-  // Всегда отвечаем голосом если есть ключ
+  // Проверяем упомянул ли Claude ссылку Calendly
+  const mentionsCalendly = reply.includes("calendly.com") || reply.includes(CALENDLY_LINK);
+
   const useVoice = !!process.env.ELEVENLABS_API_KEY;
 
   if (useVoice) {
     try {
-      const voiceFile = await textToVoice(reply);
+      // Убираем ссылку из текста для озвучки
+      const replyForVoice = reply.replace(/https?:\/\/\S+/g, "").trim();
+      const voiceFile = await textToVoice(replyForVoice || reply);
       if (voiceFile) {
         await sendVoice(chatId, voiceFile, platform);
         try { fs.unlinkSync(voiceFile); } catch(e) {}
@@ -63,6 +67,11 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
     }
   } else {
     await sendMessage(chatId, reply, platform);
+  }
+
+  // Если упомянута Calendly — отправить ссылку отдельным текстом
+  if (mentionsCalendly) {
+    await sendMessage(chatId, `📅 Записаться на звонок: ${CALENDLY_LINK}`, platform);
   }
 
   if (userMessageCount[chatId] === 1) {
