@@ -1,4 +1,5 @@
 import fs from "fs";
+import fetch from "node-fetch";
 import FormData from "form-data";
 
 const TG_TOKEN = process.env.TELEGRAM_TOKEN;
@@ -41,10 +42,14 @@ export async function sendVoice(to, filePath, platform = "telegram") {
 
     const res = await fetch(
       `https://api.telegram.org/bot${TG_TOKEN}/sendVoice`,
-      { method: "POST", body: form }
+      {
+        method: "POST",
+        headers: form.getHeaders(),
+        body: form
+      }
     );
     const data = await res.json();
-    console.log("Telegram sendVoice ответ:", JSON.stringify(data).slice(0, 100));
+    console.log("Telegram sendVoice ответ:", JSON.stringify(data).slice(0, 200));
     return;
   }
 
@@ -60,7 +65,10 @@ export async function sendVoice(to, filePath, platform = "telegram") {
       `https://graph.facebook.com/v19.0/${PHONE_ID}/media`,
       {
         method: "POST",
-        headers: { Authorization: `Bearer ${WA_TOKEN}` },
+        headers: {
+          Authorization: `Bearer ${WA_TOKEN}`,
+          ...mediaForm.getHeaders()
+        },
         body: mediaForm
       }
     );
@@ -73,7 +81,10 @@ export async function sendVoice(to, filePath, platform = "telegram") {
 
     const res = await fetch(`https://graph.facebook.com/v19.0/${PHONE_ID}/messages`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${WA_TOKEN}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${WA_TOKEN}`
+      },
       body: JSON.stringify({
         messaging_product: "whatsapp",
         to,
