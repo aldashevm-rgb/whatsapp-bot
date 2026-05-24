@@ -6,16 +6,16 @@ const PHONE_ID = process.env.PHONE_NUMBER_ID;
 
 export async function sendMessage(to, text, platform = "telegram") {
   if (platform === "telegram") {
-    await fetch(https://api.telegram.org/bot${TG_TOKEN}/sendMessage, {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: to, text })
     });
   } else {
-    await fetch(https://graph.facebook.com/v19.0/${PHONE_ID}/messages, {
+    await fetch(`https://graph.facebook.com/v19.0/${PHONE_ID}/messages`, {
       method: "POST",
       headers: {
-        Authorization: Bearer ${WA_TOKEN},
+        Authorization: `Bearer ${WA_TOKEN}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -36,7 +36,7 @@ export async function sendVoice(to, filePath, platform = "telegram") {
     form.append("chat_id", String(to));
     form.append("voice", blob, "voice.mp3");
     const res = await fetch(
-      https://api.telegram.org/bot${TG_TOKEN}/sendVoice,
+      `https://api.telegram.org/bot${TG_TOKEN}/sendVoice`,
       { method: "POST", body: form }
     );
     const data = await res.json();
