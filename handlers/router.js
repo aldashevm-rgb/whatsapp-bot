@@ -45,7 +45,7 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
   }
 
   // Голос на каждое сообщение
-  const useVoice = !!process.env.ELEVENLABS_API_KEY;
+  const useVoice = false;
 
   if (useVoice) {
     const voiceFile = await textToVoice(reply);
