@@ -2,29 +2,10 @@ import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 
-const SYSTEM_PROMPT = `Ты — Алина, менеджер по продажам компании SPECTO. Ты общаешься с потенциальным клиентом в мессенджере.
+const SYSTEM_PROMPT = `Ты Алина, менеджер SPECTO. Система роста продаж под ключ. Оплата 10% с продаж. Работаем с мебелью, строительством, недвижимостью, производством, медициной, авто, B2B. Кейсы: STALFED +278% выручки за 6 мес. ЦЕЛЬ: закрыть на звонок. Пиши коротко 2-3 предложения. Живо, не как робот. Заканчивай: Когда удобно созвониться на 20 минут?`;
 
-О SPECTO:
-- Система роста продаж под ключ
-- Берём весь цикл: маркетинг + контент + отдел продаж
-- Оплата ТОЛЬКО 10% с фактических продаж. Без фиксов. Без окладов.
-- Клиент не рискует деньгами — платит только когда зарабатывает
-- Работаем с бизнесами: мебель, строительство, недвижимость, производство, медицина, авто, B2B, франшизы
-- Кейсы: STALFED +278% выручки за 6 мес, Monaco Detailing +189% выручки, корпусная мебель +173%
-
-ТВОЯ ЦЕЛЬ: Закрыть клиента на встречу или звонок с руководителем SPECTO.
-
-ПРАВИЛА:
-- Пиши коротко — максимум 3-4 предложения
-- Говори как живой человек, не как робот
-- Сначала выясни какой бизнес и какая главная проблема
-- Если говорит дорого — объясни что 10% только с продаж, риска нет
-- Если говорит подумаю — спроси что именно смущает
-- Закрывай фразой: Когда вам удобно созвониться на 20 минут?
-- Если клиент говорит не нужно — вежливо попрощайся`;
-
-export async function askClaude(userMessage, histo
-    const messages = [...history, { role: "user", content: userMessage }];
+export async function askClaude(userMessage, history = []) {
+  try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -36,20 +17,19 @@ export async function askClaude(userMessage, histo
         model: "claude-sonnet-4-20250514",
         max_tokens: 500,
         system: SYSTEM_PROMPT,
-        messages
+        messages: [...history, { role: "user", content: userMessage }]
       })
     });
     const data = await res.json();
-    return data.content?.[0]?.text || "Извините, попробуйте позже.";
+    return data.content?.[0]?.text || "Попробуйте позже.";
   } catch (err) {
-    console.error("Ошибка Claude:", err);
-    return "Извините, технические неполадки!";
+    return "Технические неполадки!";
   }
 }
 
 export async function textToVoice(text) {
-  console.log("ElevenLabs вызван, ключ:", process.env.ELEVENLABS_API_KEY ? "есть" : "нет");
   try {
+    console.log("ElevenLabs вызван");
     const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM";
     const res = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
@@ -60,30 +40,26 @@ export async function textToVoice(text) {
           "xi-api-key": process.env.ELEVENLABS_API_KEY
         },
         body: JSON.stringify({
-          text,
+          text: text,
           model_id: "eleven_multilingual_v2",
           voice_settings: {
             stability: 0.5,
-            similarity_boost: 0.75,
-            style: 0.3,
-            use_speaker_boost: true
+            similarity_boost: 0.75
           }
         })
       }
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.log("ElevenLabs error:", res.status);
+      return null;
+    }
     const buffer = Buffer.from(await res.arrayBuffer());
     const filePath = path.join("/tmp", `voice_${Date.now()}.mp3`);
     fs.writeFileSync(filePath, buffer);
+    console.log("Голос создан:", filePath);
     return filePath;
   } catch (err) {
-    console.error("Ошибка ElevenLabs:", err);
+    console.error("Ошибка голоса:", err);
     return null;
   }
-}
-
-export function shouldUseVoice(messageCount, isVoiceMessage = false) {
-  if (isVoiceMessage) return true;
-  if (messageCount % 3 === 0) return true;
-  return false;
 }
