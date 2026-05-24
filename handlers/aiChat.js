@@ -72,7 +72,7 @@ export async function textToVoice(text) {
       }
     );
     if (!res.ok) return null;
-    const buffer = await res.buffer();
+    const buffer = Buffer.from(await res.arrayBuffer());
     const filePath = path.join("/tmp", `voice_${Date.now()}.mp3`);
     fs.writeFileSync(filePath, buffer);
     return filePath;
