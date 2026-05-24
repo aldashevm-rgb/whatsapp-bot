@@ -1,9 +1,8 @@
 import fs from "fs";
-import FormData from "form-data";
 
+const TG_TOKEN = process.env.TELEGRAM_TOKEN;
 const WA_TOKEN = process.env.WHATSAPP_TOKEN;
 const PHONE_ID = process.env.PHONE_NUMBER_ID;
-const TG_TOKEN = process.env.TELEGRAM_TOKEN;
 
 export async function sendMessage(to, text, platform = "telegram") {
   if (platform === "telegram") {
@@ -29,17 +28,19 @@ export async function sendMessage(to, text, platform = "telegram") {
 }
 
 export async function sendVoice(to, filePath, platform = "telegram") {
+  console.log("sendVoice вызван:", to, filePath);
   if (platform === "telegram") {
+    const fileBuffer = fs.readFileSync(filePath);
+    const blob = new Blob([fileBuffer], { type: "audio/mpeg" });
     const form = new FormData();
-    form.append("chat_id", to);
-    form.append("voice", fs.createReadStream(filePath), {
-      filename: "voice.mp3",
-      contentType: "audio/mpeg"
-    });
-    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendVoice`, {
-      method: "POST",
-      body: form
-    });
+    form.append("chat_id", String(to));
+    form.append("voice", blob, "voice.mp3");
+    const res = await fetch(
+      `https://api.telegram.org/bot${TG_TOKEN}/sendVoice`,
+      { method: "POST", body: form }
+    );
+    const data = await res.json();
+    console.log("Telegram sendVoice ответ:", JSON.stringify(data));
   }
 }
 
