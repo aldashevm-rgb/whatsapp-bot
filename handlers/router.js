@@ -13,6 +13,8 @@ const STOP_WORDS = [
   "спасибо не нужно", "не интересно", "откажусь", "не актуально"
 ];
 
+const CALENDLY_LINK = "https://calendly.com/specto/20min";
+
 export async function handleMessage(chatId, text, platform = "telegram", isVoiceMessage = false) {
   const lower = text.toLowerCase();
 
@@ -36,7 +38,7 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
 
   userHistory[chatId].push({ role: "user", content: text });
 
-  const reply = await askClaude(text, userHistory[chatId].slice(0, -1));
+  const reply = await askClaude(text, userHistory[chatId].slice(0, -1), CALENDLY_LINK);
 
   userHistory[chatId].push({ role: "assistant", content: reply });
 
@@ -44,15 +46,19 @@ export async function handleMessage(chatId, text, platform = "telegram", isVoice
     userHistory[chatId] = userHistory[chatId].slice(-20);
   }
 
-  // Голос на каждое сообщение
-  const useVoice = false;
+  // Всегда отвечаем голосом если есть ключ
+  const useVoice = !!process.env.ELEVENLABS_API_KEY;
 
   if (useVoice) {
-    const voiceFile = await textToVoice(reply);
-    if (voiceFile) {
-      await sendVoice(chatId, voiceFile, platform);
-      fs.unlinkSync(voiceFile);
-    } else {
+    try {
+      const voiceFile = await textToVoice(reply);
+      if (voiceFile) {
+        await sendVoice(chatId, voiceFile, platform);
+        try { fs.unlinkSync(voiceFile); } catch(e) {}
+      } else {
+        await sendMessage(chatId, reply, platform);
+      }
+    } catch(e) {
       await sendMessage(chatId, reply, platform);
     }
   } else {
