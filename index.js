@@ -1,7 +1,10 @@
 import express from "express";
 import { handleMessage } from "./handlers/router.js";
 import fs from "fs";
+import os from "os";
+import path from "path";
 import fetch from "node-fetch";
+import FormData from "form-data";
 
 const app = express();
 app.use(express.json());
@@ -16,8 +19,9 @@ async function downloadTelegramFile(fileId) {
     const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${filePath}`;
     const fileRes = await fetch(fileUrl);
     const buffer = Buffer.from(await fileRes.arrayBuffer());
-    const localPath = `/tmp/tg_voice_${Date.now()}.ogg`;
+    const localPath = path.join(os.tmpdir(), `tg_voice_${Date.now()}.ogg`);
     fs.writeFileSync(localPath, buffer);
+    console.log("Файл скачан:", localPath);
     return localPath;
   } catch (err) {
     console.error("Ошибка скачивания файла:", err);
@@ -27,28 +31,31 @@ async function downloadTelegramFile(fileId) {
 
 async function transcribeVoice(filePath) {
   try {
-    // Используем Whisper через OpenAI если есть ключ
     if (!process.env.OPENAI_API_KEY) {
-      return "[голосовое сообщение — расскажите текстом, пожалуйста]";
+      console.log("OPENAI_API_KEY не задан");
+      return null;
     }
-    const { default: FormData } = await import("form-data");
     const form = new FormData();
-    form.append("file", fs.createReadStream(filePath), { filename: "voice.ogg", contentType: "audio/ogg" });
+    form.append("file", fs.createReadStream(filePath), {
+      filename: "voice.ogg",
+      contentType: "audio/ogg"
+    });
     form.append("model", "whisper-1");
     form.append("language", "ru");
+
     const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        ...form.getHeaders()
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: form
     });
     const data = await res.json();
-    return data.text || "[не удалось распознать голос]";
+    console.log("Whisper ответ:", JSON.stringify(data));
+    return data.text || null;
   } catch (err) {
     console.error("Ошибка транскрипции:", err);
-    return "[не удалось распознать голос]";
+    return null;
   }
 }
 
@@ -61,17 +68,23 @@ app.post("/telegram", async (req, res) => {
     let text = "";
 
     if (message.text) {
-      // Обычное текстовое сообщение
       text = message.text;
+      console.log("Текст от", chatId, ":", text);
     } else if (message.voice || message.video_note) {
-      // Голосовое или кружочек
+      console.log("Голосовое/кружочек от", chatId);
       const fileId = message.voice?.file_id || message.video_note?.file_id;
       const localPath = await downloadTelegramFile(fileId);
       if (localPath) {
-        text = await transcribeVoice(localPath);
+        const transcribed = await transcribeVoice(localPath);
         try { fs.unlinkSync(localPath); } catch(e) {}
+        if (transcribed) {
+          text = transcribed;
+          console.log("Распознано:", text);
+        } else {
+          text = "Привет, расскажи о своём бизнесе";
+        }
       } else {
-        text = "[голосовое сообщение]";
+        text = "Привет, расскажи о своём бизнесе";
       }
     } else {
       return res.sendStatus(200);
@@ -118,7 +131,7 @@ app.listen(PORT, async () => {
   console.log("SPECTO бот запущен!");
   const domain = process.env.RAILWAY_PUBLIC_DOMAIN;
   if (domain && TOKEN) {
-    const url = "https://" + domain + "/telegram";
+    const url = `https://${domain}/telegram`;
     await fetch(`https://api.telegram.org/bot${TOKEN}/setWebhook?url=` + url);
     console.log("Webhook: " + url);
   }

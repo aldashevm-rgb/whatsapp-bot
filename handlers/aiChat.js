@@ -1,11 +1,12 @@
 import fetch from "node-fetch";
 import fs from "fs";
+import os from "os";
 import path from "path";
 
 const SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по продажам компании SPECTO.
 Система роста продаж под ключ. Оплата ТОЛЬКО 10% с продаж. Без фиксов.
 Работаем с мебелью, строительством, недвижимостью, производством, медициной, авто, B2B.
-Кейсы: STALFED +278% выручки за 6 мес, Monaco Detailing +189%, корпусная мебель +173%.
+Кейсы: STALFED +278% выручки за 6 мес, Monaco Detailing +189%.
 
 ТВОЯ ЦЕЛЬ: Закрыть клиента на встречу или звонок.
 
@@ -68,7 +69,7 @@ export async function textToVoice(text) {
       return null;
     }
     const buffer = Buffer.from(await res.arrayBuffer());
-    const filePath = path.join("/tmp", `voice_${Date.now()}.mp3`);
+    const filePath = path.join(os.tmpdir(), `voice_${Date.now()}.mp3`);
     fs.writeFileSync(filePath, buffer);
     console.log("Голос создан:", filePath);
     return filePath;
