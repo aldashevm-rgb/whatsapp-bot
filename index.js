@@ -66,12 +66,15 @@ app.post("/telegram", async (req, res) => {
 
     const chatId = String(message.chat.id);
     let text = "";
+    let isVoice = false;
 
     if (message.text) {
       text = message.text;
+      isVoice = false;
       console.log("Текст от", chatId, ":", text);
     } else if (message.voice || message.video_note) {
       console.log("Голосовое/кружочек от", chatId);
+      isVoice = true;
       const fileId = message.voice?.file_id || message.video_note?.file_id;
       const localPath = await downloadTelegramFile(fileId);
       if (localPath) {
@@ -90,7 +93,7 @@ app.post("/telegram", async (req, res) => {
       return res.sendStatus(200);
     }
 
-    await handleMessage(chatId, text, "telegram");
+    await handleMessage(chatId, text, "telegram", isVoice);
     res.sendStatus(200);
   } catch (err) {
     console.error("Ошибка:", err);
@@ -113,7 +116,7 @@ app.post("/webhook", async (req, res) => {
     if (message) {
       const from = message.from;
       const text = message.text?.body || "";
-      await handleMessage(from, text, "whatsapp");
+      await handleMessage(from, text, "whatsapp", false);
     }
     res.sendStatus(200);
   } catch (err) {
