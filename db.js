@@ -33,11 +33,20 @@ export async function pushLeadToCRM(lead) {
 
   try {
     const sourceMap = { telegram: "Telegram", whatsapp: "WhatsApp" };
+
+    // Для WhatsApp lead.phone — настоящий номер.
+    // Для Telegram lead.phone — это chat_id, не телефон.
+    const isWhatsApp = lead.platform === "whatsapp";
+    const phoneValue = isWhatsApp ? lead.phone : "";
+    const noteValue = isWhatsApp
+      ? (lead.details || "")
+      : `Telegram ID: ${lead.phone}\n\nПервое сообщение: ${lead.details || ""}`;
+
     const body = {
       name: lead.name || "Новый лид",
-      phone: lead.phone || "",
+      phone: phoneValue,
       source: sourceMap[lead.platform] || "Бот",
-      note: lead.details || "",
+      note: noteValue,
       stage_id: "specto_new",
       project_id: "specto",
       assignee: "Алина",
