@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СПИН-продажи — Тренинг | Полная презентация</title>
+<style>
+  :root{
+    --bg:#0d1b2a;
+    --bg2:#132a43;
+    --ink:#0d1b2a;
+    --accent:#f2a900;      /* золото */
+    --accent2:#2ec4b6;     /* бирюза */
+    --accent3:#e63946;     /* акцент-красный */
+    --paper:#ffffff;
+    --muted:#5b6b7c;
+    --line:#e3e8ee;
+    --s:#3a86ff;  /* Situation */
+    --p:#8338ec;  /* Problem */
+    --i:#e63946;  /* Implication */
+    --n:#2ec4b6;  /* Need-payoff */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:#08131f;color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  /* ---------- Deck / slide ---------- */
+  .deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{
+    position:absolute;width:min(1160px,94vw);height:min(654px,92vh);
+    background:var(--paper);border-radius:18px;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    display:none;flex-direction:column;
+    padding:56px 64px;
+  }
+  .slide.active{display:flex;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(10px) scale(.995)}to{opacity:1;transform:none}}
+
+  /* section divider */
+  .slide.section{
+    background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);
+    color:#fff;justify-content:center;
+  }
+  .slide.section .kicker{color:var(--accent)}
+  .slide.title{
+    background:radial-gradient(1200px 600px at 20% -10%,#1c3a5c 0,var(--bg) 55%);
+    color:#fff;justify-content:center;
+  }
+
+  /* typography */
+  .kicker{font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+  h1{font-size:56px;line-height:1.05;font-weight:800;letter-spacing:-.5px}
+  h2{font-size:38px;line-height:1.1;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+  h3{font-size:23px;font-weight:700;margin-bottom:10px}
+  .lead{font-size:20px;color:var(--muted);margin-top:12px;max-width:70ch}
+  p,li{font-size:18.5px;line-height:1.5}
+  .slide.section p,.slide.title p{opacity:.9}
+  ul,ol{padding-left:22px;margin-top:8px}
+  li{margin:9px 0}
+  li::marker{color:var(--accent)}
+  strong{color:var(--ink)}
+  .slide.section strong,.slide.title strong{color:#fff}
+  em{color:var(--accent3);font-style:normal;font-weight:700}
+
+  .head{border-bottom:3px solid var(--line);padding-bottom:14px;margin-bottom:22px}
+  .body{flex:1;overflow:auto}
+  .body::-webkit-scrollbar{width:8px}
+  .body::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+
+  .card{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .card h3{margin-bottom:8px}
+  .card.accent{border-left:6px solid var(--accent)}
+  .card.s{border-left:6px solid var(--s)}
+  .card.p{border-left:6px solid var(--p)}
+  .card.i{border-left:6px solid var(--i)}
+  .card.n{border-left:6px solid var(--n)}
+
+  .pill{display:inline-block;padding:5px 14px;border-radius:999px;font-size:14px;font-weight:700;letter-spacing:.02em}
+  .pill.s{background:rgba(58,134,255,.12);color:var(--s)}
+  .pill.p{background:rgba(131,56,236,.12);color:var(--p)}
+  .pill.i{background:rgba(230,57,70,.12);color:var(--i)}
+  .pill.n{background:rgba(46,196,182,.14);color:#12897d}
+
+  .q{background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);
+     border-radius:10px;padding:12px 16px;margin:8px 0;font-size:17.5px}
+  .q.s{border-left-color:var(--s)}
+  .q.p{border-left-color:var(--p)}
+  .q.i{border-left-color:var(--i)}
+  .q.n{border-left-color:var(--n)}
+  .q b{color:var(--muted);font-weight:700;font-size:13px;display:block;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+
+  .dialog{font-size:17px;line-height:1.55}
+  .dialog .r{color:var(--muted);font-weight:700}
+  .dialog .c{color:var(--p);font-weight:700}
+  .dialog .row{margin:7px 0;padding-left:0}
+  .tag{font-size:12px;font-weight:800;padding:2px 8px;border-radius:6px;color:#fff;margin-left:6px;vertical-align:middle}
+  .tag.s{background:var(--s)} .tag.p{background:var(--p)} .tag.i{background:var(--i)} .tag.n{background:var(--n)}
+
+  .box{background:#fff8e8;border:1px solid #f5e2b0;border-radius:12px;padding:16px 20px;margin-top:14px}
+  .box.warn{background:#fdecec;border-color:#f6c6c6}
+  .box.good{background:#e9f9f2;border-color:#bfe9d8}
+  .box .t{font-weight:800;margin-bottom:4px}
+
+  .ex{background:linear-gradient(135deg,#132a43,#0d1b2a);color:#fff;border-radius:14px;padding:20px 24px}
+  .ex .k{color:var(--accent);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:13px}
+  .ex h3{color:#fff}
+  .ex li{color:#e8eef5}
+
+  table{border-collapse:collapse;width:100%;font-size:16.5px;margin-top:6px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:var(--bg);color:#fff;font-weight:700}
+  tr:nth-child(even) td{background:#f7f9fc}
+
+  .funnel{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:10px}
+  .funnel .step{color:#fff;font-weight:700;border-radius:10px;padding:12px 18px;text-align:center}
+  .funnel .a1{background:var(--s);width:92%}
+  .funnel .a2{background:var(--p);width:76%}
+  .funnel .a3{background:var(--i);width:60%}
+  .funnel .a4{background:var(--n);width:44%}
+
+  .big{font-size:120px;font-weight:800;line-height:1;color:var(--accent)}
+  .stat{display:flex;gap:26px;flex-wrap:wrap;margin-top:10px}
+  .stat .n{font-size:52px;font-weight:800;color:var(--accent2)}
+  .stat .l{font-size:15px;color:var(--muted)}
+
+  .footer{position:absolute;bottom:16px;left:64px;right:64px;display:flex;justify-content:space-between;
+          font-size:12.5px;color:var(--muted);letter-spacing:.03em}
+  .slide.section .footer,.slide.title .footer{color:rgba(255,255,255,.5)}
+
+  /* progress + controls */
+  .progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);z-index:50;transition:width .3s}
+  .ctl{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;
+       display:flex;gap:8px;align-items:center;background:rgba(8,19,31,.8);backdrop-filter:blur(8px);
+       padding:8px 14px;border-radius:999px;color:#cdd8e4;font-size:13px}
+  .ctl button{background:#1c3a5c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px}
+  .ctl button:hover{background:#2a5688}
+  .counter{min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+  .hint{position:fixed;top:14px;right:16px;z-index:50;color:#6d8199;font-size:12px}
+
+  /* print */
+  @media print{
+    body{overflow:visible;background:#fff}
+    .progress,.ctl,.hint{display:none}
+    .deck{position:static}
+    .slide{display:flex!important;position:relative;width:100%;height:100vh;
+           border-radius:0;box-shadow:none;page-break-after:always;margin:0}
+    .slide.active{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="hint">← → пробел · F — весь экран · P — печать/PDF</div>
+<div class="deck" id="deck">
+
+<!-- ============ SLIDES ============ -->
+
+<!-- 1 TITLE -->
+<section class="slide title">
+  <div class="kicker">Корпоративный тренинг продаж · 2 дня</div>
+  <h1>СПИН-продажи<br><span style="color:var(--accent)">S · P · I · N</span></h1>
+  <p class="lead">Технология вопросов, которая превращает менеджера в консультанта, а сомневающегося клиента — в покупателя. Методика Нила Рэкхема на основе 35 000 реальных встреч.</p>
+  <div class="stat">
+    <div><div class="n">4</div><div class="l">типа вопросов</div></div>
+    <div><div class="n">35 000</div><div class="l">исследованных сделок</div></div>
+    <div><div class="n">×2</div><div class="l">рост конверсии в крупных продажах</div></div>
+  </div>
+  <div class="footer"><span>Тренинг по продажам · СПИН</span><span>Полная программа · 70 слайдов</span></div>
+</section>
+
+<!-- 2 AGENDA -->
+<section class="slide">
+  <div class="head"><div class="kicker">С чего начнём</div><h2>Программа тренинга</h2></div>
+  <div class="body cols">
+    <div>
+      <h3>День 1 — Фундамент и вопросы</h3>
+      <ul>
+        <li><strong>Модуль 1.</strong> Почему «впаривание» не работает в крупных продажах</li>
+        <li><strong>Модуль 2.</strong> Модель СПИН и логика воронки вопросов</li>
+        <li><strong>Модуль 3.</strong> Ситуационные вопросы (S)</li>
+        <li><strong>Модуль 4.</strong> Проблемные вопросы (P)</li>
+        <li><strong>Модуль 5.</strong> Извлекающие вопросы (I)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>День 2 — Мастерство и практика</h3>
+      <ul>
+        <li><strong>Модуль 6.</strong> Направляющие вопросы (N)</li>
+        <li><strong>Модуль 7.</strong> Характеристики → Выгоды (ХПВ)</li>
+        <li><strong>Модуль 8.</strong> Работа с возражениями</li>
+        <li><strong>Модуль 9.</strong> Получение обязательств</li>
+        <li><strong>Модуль 10–11.</strong> Ролевые игры и план внедрения</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box"><div class="t">Формат</div>30% теории · 70% практики. Каждый блок = объяснение → примеры → упражнение → разбор.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>02</span></div>
+</section>
+
+<!-- 3 RULES -->
+<section class="slide">
+  <div class="head"><div class="kicker">Договорённости</div><h2>Правила работы на тренинге</h2></div>
+  <div class="body cols3">
+    <div class="card accent"><h3>🎯 Практика важнее теории</h3><p>Навык рождается в упражнениях. Ошибаться здесь — безопасно и полезно.</p></div>
+    <div class="card accent"><h3>🗣️ Говорим на своих кейсах</h3><p>Берём реальные сделки и клиентов из вашей практики.</p></div>
+    <div class="card accent"><h3>📵 Режим фокуса</h3><p>Телефоны в стороне. Полное присутствие 2 дня даёт результат.</p></div>
+    <div class="card accent"><h3>🙋 Вопрос = ценность</h3><p>Нет глупых вопросов. Любое «а что если» делает группу сильнее.</p></div>
+    <div class="card accent"><h3>🔁 Пробуем сразу</h3><p>Каждую технику отрабатываем в паре в тот же час.</p></div>
+    <div class="card accent"><h3>🤝 Конфиденциальность</h3><p>Кейсы и цифры коллег остаются в этой комнате.</p></div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>03</span></div>
+</section>
+
+<!-- 4 SECTION 1 -->
+<section class="slide section">
+  <div class="kicker">Модуль 1</div>
+  <h1>Почему классические<br>техники не работают<br>в крупных продажах</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Прежде чем учить новое — поймём, почему «старая школа» проваливается на серьёзных чеках.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>04</span></div>
+</section>
+
+<!-- 5 RACKHAM -->
+<section class="slide">
+  <div class="head"><div class="kicker">Откуда взялся метод</div><h2>Нил Рэкхем и исследование Huthwaite</h2></div>
+  <div class="body cols">
+    <div>
+      <p>СПИН — не «гуру-интуиция», а результат самого масштабного исследования продаж в истории.</p>
+      <ul>
+        <li>Компания <strong>Huthwaite</strong> под руководством Нила Рэкхема 12 лет изучала продавцов «в полях».</li>
+        <li>Проанализировано <strong>35 000 реальных встреч</strong> в 23 странах.</li>
+        <li>Цель: понять, что <em>на самом деле</em> делают лучшие продавцы, а не что они рассказывают о себе.</li>
+        <li>Результат — книга «SPIN Selling» (1988), ставшая мировым стандартом B2B-продаж.</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Ключевое открытие</div>
+      <h3>Успех в крупных продажах определяет не то, как вы <u>говорите</u>, а то, как вы <u>спрашиваете</u>.</h3>
+      <p style="margin-top:12px">Лучшие продавцы говорили меньше, а слушали и задавали вопросы — больше. И вопросы эти были особенными.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>05</span></div>
+</section>
+
+<!-- 6 SMALL VS LARGE -->
+<section class="slide">
+  <div class="head"><div class="kicker">Две разные игры</div><h2>Малые продажи ≠ крупные продажи</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Критерий</th><th>Малая продажа</th><th>Крупная продажа (СПИН)</th></tr>
+      <tr><td>Сумма и риск для клиента</td><td>Небольшие, решение «на эмоции»</td><td>Высокие — ошибка бьёт по карьере и бюджету</td></tr>
+      <tr><td>Длительность</td><td>Один контакт, «здесь и сейчас»</td><td>Несколько встреч, недели и месяцы</td></tr>
+      <tr><td>Кто решает</td><td>Один человек</td><td>Группа лиц (ЛПР, ЛВР, финансист)</td></tr>
+      <tr><td>Роль эмоций</td><td>Импульс решает</td><td>Нужно логическое обоснование</td></tr>
+      <tr><td>Что продаёт</td><td>Напор, презентация, скидка</td><td>Понимание проблемы клиента</td></tr>
+    </table>
+    <div class="box warn"><div class="t">Вывод</div>Техники, отлично работающие на рынке, проваливаются в кабинете директора. Чем крупнее сделка — тем меньше работает давление и тем важнее вопросы.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>06</span></div>
+</section>
+
+<!-- 7 WHY TRADITIONAL FAILS -->
+<section class="slide">
+  <div class="head"><div class="kicker">Разбор ошибок</div><h2>Почему «старые» техники дают сбой</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card p"><h3>Презентация «фича за фичей»</h3><p>Вы сыплете характеристиками, но клиент не видит, как это решает <em>его</em> проблему. Больше фич → больше возражений.</p></div>
+      <div class="card p" style="margin-top:14px"><h3>Открытые/закрытые вопросы</h3><p>Классическая дихотомия не предсказывает успех. Важен не «тип» вопроса, а его <em>цель</em>.</p></div>
+    </div>
+    <div>
+      <div class="card p"><h3>Агрессивное закрытие</h3><p>«Приёмчики дожима» работают на мелких чеках и <em>снижают</em> результат на крупных: давление пугает.</p></div>
+      <div class="card p" style="margin-top:14px"><h3>Работа с возражениями</h3><p>Много возражений = симптом. Мастер СПИН их <em>предотвращает</em> вопросами, а не героически «отрабатывает».</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Главный сдвиг мышления</div>Перестаём «продавать продукт». Начинаем «покупать вместе с клиентом» — помогаем ему осознать проблему и её цену.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>07</span></div>
+</section>
+
+<!-- 8 CLOSING MYTH -->
+<section class="slide">
+  <div class="head"><div class="kicker">Развенчиваем миф</div><h2>Миф о «магическом закрытии»</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Классика учит: «чем больше приёмов закрытия — тем выше продажи». Исследование Рэкхема показало обратное.</p>
+      <ul>
+        <li>На <strong>мелких</strong> сделках приёмы дожима слегка помогают.</li>
+        <li>На <strong>крупных</strong> — активное закрытие <em>снижает</em> шанс сделки.</li>
+        <li>Опытный покупатель считывает манипуляцию и защищается.</li>
+      </ul>
+      <p style="margin-top:10px">Настоящая продажа «закрывается» задолго до финала — правильными вопросами.</p>
+    </div>
+    <div class="ex">
+      <div class="k">Формула СПИН</div>
+      <h3>Сильная потребность → лёгкое закрытие</h3>
+      <p style="margin-top:10px">Если клиент сам осознал масштаб проблемы и ценность решения, финал становится формальностью, а не битвой.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>08</span></div>
+</section>
+
+<!-- 9 FOUR STAGES -->
+<section class="slide">
+  <div class="head"><div class="kicker">Анатомия встречи</div><h2>4 стадии любой продажи</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card"><h3>1 · Начало (контакт)</h3><p>Знакомство, повод, доверие. Не начинайте с презентации продукта!</p></div>
+      <div class="card i" style="margin-top:12px"><h3>2 · Исследование <span class="pill i">ядро СПИН</span></h3><p>Здесь работают вопросы S-P-I-N. Тут выигрывается или проигрывается сделка.</p></div>
+    </div>
+    <div>
+      <div class="card"><h3>3 · Демонстрация возможностей</h3><p>Показываем решение — но уже под осознанную клиентом потребность (через выгоды).</p></div>
+      <div class="card" style="margin-top:12px"><h3>4 · Получение обязательства</h3><p>Договариваемся о конкретном следующем шаге (прогресс), а не «я подумаю».</p></div>
+    </div>
+  </div>
+  <div class="box"><div class="t">Фокус тренинга</div>80% успеха рождается на стадии <em>Исследование</em>. Именно ей посвящена методика СПИН.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>09</span></div>
+</section>
+
+<!-- 10 SECTION 2 -->
+<section class="slide section">
+  <div class="kicker">Модуль 2</div>
+  <h1>Модель СПИН:<br>логика воронки вопросов</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Четыре типа вопросов, которые ведут клиента от «у меня всё нормально» до «мне нужно это решение».</p>
+  <div class="footer"><span>СПИН-продажи</span><span>10</span></div>
+</section>
+
+<!-- 11 WHAT IS SPIN -->
+<section class="slide">
+  <div class="head"><div class="kicker">Расшифровка</div><h2>Что означает С-П-И-Н</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q s"><b>S — Situation / Ситуационные</b>Собираем факты о текущем положении клиента.</div>
+      <div class="q p"><b>P — Problem / Проблемные</b>Выявляем трудности, недовольство, «боли».</div>
+      <div class="q i"><b>I — Implication / Извлекающие</b>Усиливаем проблему: показываем её последствия и цену.</div>
+      <div class="q n"><b>N — Need-payoff / Направляющие</b>Клиент сам проговаривает ценность решения.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Суть в одной фразе</div>
+      <h3>Ситуация → Проблема → Последствия → Ценность решения</h3>
+      <p style="margin-top:12px">Вы не рассказываете клиенту, что ему нужно. Вопросами вы <u>помогаете ему прийти к этому самому</u>. Человек не спорит с собственными выводами.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>11</span></div>
+</section>
+
+<!-- 12 FUNNEL -->
+<section class="slide">
+  <div class="head"><div class="kicker">Как это работает</div><h2>Воронка вопросов СПИН</h2></div>
+  <div class="body cols">
+    <div class="funnel">
+      <div class="step a1">S · Ситуационные — контекст и факты</div>
+      <div class="step a2">P · Проблемные — находим боль</div>
+      <div class="step a3">I · Извлекающие — раздуваем боль</div>
+      <div class="step a4">N · Направляющие — рисуем выгоду</div>
+      <div style="font-weight:800;color:var(--accent2);font-size:20px;margin-top:6px">↓ Готовность купить</div>
+    </div>
+    <div>
+      <p>Порядок не случаен — это психологическая последовательность:</p>
+      <ul>
+        <li>Нельзя обсуждать <em>последствия</em> проблемы, которую ещё не нашли.</li>
+        <li>Нельзя говорить о <em>ценности решения</em>, если клиент не чувствует боли.</li>
+        <li>Вопросов S — минимум, вопросов I и N — максимум внимания.</li>
+      </ul>
+      <div class="box warn"><div class="t">Частая ошибка</div>Прыжок сразу к решению после первого же ответа клиента. Не торопите воронку.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>12</span></div>
+</section>
+
+<!-- 13 HIDDEN VS EXPLICIT NEEDS -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ключевое понятие</div><h2>Скрытые и явные потребности</h2></div>
+  <div class="body cols">
+    <div class="card p"><h3>Скрытая потребность</h3><p>Намёк на недовольство: <em>«эта система иногда тормозит…»</em>, «не всегда успеваем».</p><p style="margin-top:8px">Клиент терпит проблему. Для крупной продажи этого <strong>недостаточно</strong>.</p></div>
+    <div class="card n"><h3>Явная потребность</h3><p>Чёткое желание решить: <em>«мне нужна система, которая не падает в пик»</em>.</p><p style="margin-top:8px">Именно явные потребности <strong>предсказывают</strong> покупку в крупных сделках.</p></div>
+  </div>
+  <div class="box good"><div class="t">Задача продавца СПИН</div>Провести клиента от <strong>скрытой</strong> потребности к <strong>явной</strong>. Это работа вопросов <span class="pill i">I</span> и <span class="pill n">N</span>. Мостик между ними — усиление проблемы.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>13</span></div>
+</section>
+
+<!-- 14 VALUE EQUATION -->
+<section class="slide">
+  <div class="head"><div class="kicker">Экономика решения</div><h2>Уравнение ценности</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="ex">
+        <div class="k">Весы в голове клиента</div>
+        <h3>Серьёзность проблемы  ⚖  Стоимость решения</h3>
+      </div>
+      <ul style="margin-top:16px">
+        <li>Клиент купит, только если <strong>боль перевешивает цену</strong>.</li>
+        <li>Извлекающие вопросы <em>увеличивают</em> вес проблемы.</li>
+        <li>Направляющие вопросы <em>показывают</em> вес выгоды.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box warn"><div class="t">«Дорого»</div>Это не про цену. Это про то, что <strong>проблема кажется мельче</strong>, чем сумма. Значит — мало поработали с I-вопросами.</div>
+      <div class="box good"><div class="t">Правильная реакция</div>Не снижать цену, а вернуться и усилить осознание проблемы и последствий.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>14</span></div>
+</section>
+
+<!-- 15 SECTION 3: S -->
+<section class="slide section">
+  <div class="kicker">Модуль 3 · буква S</div>
+  <h1><span style="color:var(--s)">Ситуационные</span><br>вопросы</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Собираем факты и контекст. Фундамент, на котором строятся все остальные вопросы.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>15</span></div>
+</section>
+
+<!-- 16 S definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Situation Questions</div><h2>Ситуационные вопросы: суть</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill s">S</span> Вопросы о фактах и текущем положении дел клиента.</p>
+      <ul>
+        <li><strong>Цель:</strong> понять контекст, чтобы задать точные проблемные вопросы.</li>
+        <li><strong>Для кого:</strong> больше для вас, чем для клиента.</li>
+        <li><strong>Правило:</strong> минимально необходимое количество.</li>
+      </ul>
+      <div class="box warn"><div class="t">Важно</div>Клиент не любит долго отвечать на очевидные для него факты. Слишком много S = скука и раздражение.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«Расскажите, как сейчас устроено…?»</h3>
+      <p style="margin-top:12px">Что уже есть, сколько людей, какие объёмы, какими инструментами пользуетесь, как давно, кто отвечает за процесс.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>16</span></div>
+</section>
+
+<!-- 17 S examples -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Примеры ситуационных вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q s"><b>Масштаб</b>Сколько сотрудников работает в отделе продаж?</div>
+      <div class="q s"><b>Процесс</b>Как сейчас организован учёт заявок от клиентов?</div>
+      <div class="q s"><b>Инструменты</b>Какой CRM/системой вы пользуетесь сегодня?</div>
+      <div class="q s"><b>История</b>Как давно вы работаете с текущим поставщиком?</div>
+    </div>
+    <div>
+      <div class="q s"><b>Объёмы</b>Сколько заказов проходит в месяц?</div>
+      <div class="q s"><b>Роли</b>Кто отвечает за принятие решения по этому вопросу?</div>
+      <div class="q s"><b>Планы</b>Планируете ли расширение в этом году?</div>
+      <div class="box"><div class="t">Лайфхак</div>Половину S-вопросов закрывайте <strong>до встречи</strong> — через сайт, соцсети, открытые данные. На встрече — только то, что нельзя нагуглить.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>17</span></div>
+</section>
+
+<!-- 18 S mistakes -->
+<section class="slide">
+  <div class="head"><div class="kicker">Осторожно</div><h2>Ошибки с ситуационными вопросами</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card p"><h3>❌ Их слишком много</h3><p>«Допрос» утомляет ЛПР. Опытные продавцы задают меньше S, чем новички.</p></div>
+      <div class="card p" style="margin-top:12px"><h3>❌ Спрашивают очевидное</h3><p>То, что легко узнать заранее. Это сигнал: «я не подготовился».</p></div>
+    </div>
+    <div>
+      <div class="card p"><h3>❌ Задают «в пустоту»</h3><p>Без цели — куда ведёт этот вопрос? Каждый S должен готовить будущий P.</p></div>
+      <div class="card n" style="margin-top:12px"><h3>✅ Как надо</h3><p>Каждый ситуационный вопрос — <em>трамплин</em> к проблемному. «Сколько заявок теряете?» → мостик к боли.</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Правило хорошего тона</div>Перед каждым S спросите себя: «Какую проблему я хочу этим вскрыть?» Нет ответа — не задавайте.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>18</span></div>
+</section>
+
+<!-- 19 S prep -->
+<section class="slide">
+  <div class="head"><div class="kicker">Подготовка</div><h2>Домашняя работа до встречи</h2></div>
+  <div class="body">
+    <p>Хороший продавец приходит, уже зная 80% ситуации. Соберите заранее:</p>
+    <div class="cols3" style="margin-top:12px">
+      <div class="card s"><h3>Компания</h3><p>Отрасль, размер, новости, выручка, недавние изменения.</p></div>
+      <div class="card s"><h3>Люди</h3><p>Кто ЛПР, кто влияет, роли, LinkedIn, интересы.</p></div>
+      <div class="card s"><h3>Контекст</h3><p>Конкуренты, текущие поставщики, публичные боли рынка.</p></div>
+    </div>
+    <div class="box"><div class="t">Экономьте «бюджет вопросов»</div>У клиента есть терпение примерно на 3–5 фактических вопросов. Тратьте его только на то, чего не найти снаружи.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>19</span></div>
+</section>
+
+<!-- 20 S exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 1 · 10 минут</div><h2>Практика: ситуационные вопросы</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <h3>Возьмите свой продукт и реального клиента</h3>
+      <ol style="margin-top:10px">
+        <li>Напишите <strong>5 ситуационных</strong> вопросов.</li>
+        <li>Отметьте, какие можно узнать <u>до</u> встречи.</li>
+        <li>Оставьте только 3, которые реально нужно задать лично.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="box good"><div class="t">Критерий хорошего S-вопроса</div>За ним «прячется» будущий проблемный вопрос. Он ведёт к боли, а не просто собирает анкету.</div>
+      <div class="box"><div class="t">Разбор в парах</div>Партнёр отвечает как клиент и говорит, на каком вопросе стало скучно. Это ваш лимит.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>20</span></div>
+</section>
+
+<!-- 21 SECTION 4: P -->
+<section class="slide section">
+  <div class="kicker">Модуль 4 · буква P</div>
+  <h1><span style="color:var(--p)">Проблемные</span><br>вопросы</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Находим боль. Без проблемы нет потребности, а без потребности нет продажи.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>21</span></div>
+</section>
+
+<!-- 22 P definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Problem Questions</div><h2>Проблемные вопросы: суть</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill p">P</span> Вопросы о трудностях, недовольствах и рисках клиента.</p>
+      <ul>
+        <li><strong>Цель:</strong> вскрыть <em>скрытые потребности</em>.</li>
+        <li><strong>Эффект:</strong> клиент начинает осознавать, что «не всё так гладко».</li>
+        <li>Каждая найденная проблема — потенциальная точка ценности вашего продукта.</li>
+      </ul>
+      <div class="box good"><div class="t">Принцип</div>Продавайте не то, что у вас есть, а <strong>решение проблемы</strong>, которую клиент признал.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«Насколько вы довольны…?», «С какими сложностями сталкиваетесь в…?»</h3>
+      <p style="margin-top:12px">Ищите: недовольство, узкие места, потери времени/денег, риски, ограничения текущего решения.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>22</span></div>
+</section>
+
+<!-- 23 P examples -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Примеры проблемных вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q p"><b>Недовольство</b>Что вас больше всего не устраивает в текущем процессе?</div>
+      <div class="q p"><b>Надёжность</b>Как часто система подводит в самый неподходящий момент?</div>
+      <div class="q p"><b>Скорость</b>Успеваете ли обрабатывать все заявки вовремя?</div>
+      <div class="q p"><b>Ресурсы</b>Хватает ли людей в пиковые периоды?</div>
+    </div>
+    <div>
+      <div class="q p"><b>Качество</b>Бывают ли ошибки из-за ручного ввода данных?</div>
+      <div class="q p"><b>Затраты</b>Не кажется ли обслуживание текущего решения слишком дорогим?</div>
+      <div class="q p"><b>Контроль</b>Насколько вам прозрачно, что происходит с каждой сделкой?</div>
+      <div class="box"><div class="t">Приём</div>Формулируйте мягко: «бывает ли…», «случается ли…» — так проще признать проблему без потери лица.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>23</span></div>
+</section>
+
+<!-- 24 P balance -->
+<section class="slide">
+  <div class="head"><div class="kicker">Баланс</div><h2>Соотношение S и P вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Типичная ошибка новичка — тонуть в ситуационных и почти не задавать проблемных.</p>
+      <table>
+        <tr><th></th><th>Новичок</th><th>Мастер</th></tr>
+        <tr><td>Ситуационные</td><td>Много</td><td>Мало, точечно</td></tr>
+        <tr><td>Проблемные</td><td>Мало</td><td>Много</td></tr>
+        <tr><td>Результат</td><td>«Скучный опрос»</td><td>Осознание боли</td></tr>
+      </table>
+    </div>
+    <div class="ex">
+      <div class="k">Связка S → P</div>
+      <h3>Факт → трудность</h3>
+      <p style="margin-top:8px"><span style="color:#8ec5ff">S:</span> «Сколько заявок в день обрабатываете вручную?»</p>
+      <p><span style="color:#c9a2ff">P:</span> «А бывает, что заявки теряются или обрабатываются с задержкой?»</p>
+      <p style="margin-top:10px">Ситуация подаёт мяч — проблема забивает.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>24</span></div>
+</section>
+
+<!-- 25 P bank by industry -->
+<section class="slide">
+  <div class="head"><div class="kicker">Отраслевая заготовка</div><h2>Банк проблемных вопросов по сферам</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Сфера</th><th>Проблемные вопросы</th></tr>
+      <tr><td>Розница / e-com</td><td>Часто ли теряете клиентов из-за медленного ответа? Как считаете потери от брошенных корзин?</td></tr>
+      <tr><td>Производство</td><td>Какой процент брака? Сколько простоев из-за поломок оборудования?</td></tr>
+      <tr><td>Услуги / B2B</td><td>Сколько сделок «зависает» без ответа? Насколько прогнозируем ваш поток заявок?</td></tr>
+      <tr><td>Логистика</td><td>Как часто срываются сроки доставки? Во что обходятся простои?</td></tr>
+      <tr><td>Финансы</td><td>Сколько времени уходит на сверку вручную? Каков риск ошибки в отчётности?</td></tr>
+    </table>
+    <div class="box good"><div class="t">Домашняя заготовка</div>Составьте свой «банк из 15 проблемных вопросов» под вашу нишу — и вы никогда не растеряетесь на встрече.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>25</span></div>
+</section>
+
+<!-- 26 P exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 2 · 12 минут</div><h2>Практика: продукт → проблемы</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание «Обратный инжиниринг»</div>
+      <ol>
+        <li>Выпишите <strong>3 сильные стороны</strong> вашего продукта.</li>
+        <li>Для каждой — какую <strong>проблему</strong> клиента она решает?</li>
+        <li>Сформулируйте <strong>проблемный вопрос</strong>, который эту боль вскрывает.</li>
+      </ol>
+    </div>
+    <div>
+      <table>
+        <tr><th>Сила продукта</th><th>Проблема</th><th>P-вопрос</th></tr>
+        <tr><td>Автоответы 24/7</td><td>Теряют лиды ночью</td><td>«Что происходит с заявками вне рабочих часов?»</td></tr>
+        <tr><td>Аналитика</td><td>Решают вслепую</td><td>«Насколько вам понятно, откуда приходят лучшие клиенты?»</td></tr>
+      </table>
+      <div class="box"><div class="t">Итог</div>У вас на руках — рабочий скрипт проблемных вопросов под ваш продукт.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>26</span></div>
+</section>
+
+<!-- 27 SECTION 5: I -->
+<section class="slide section">
+  <div class="kicker">Модуль 5 · буква I</div>
+  <h1><span style="color:var(--i)">Извлекающие</span><br>вопросы</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Самая мощная и самая сложная часть СПИН. Здесь маленькая проблема превращается в большую.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>27</span></div>
+</section>
+
+<!-- 28 I definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Implication Questions</div><h2>Извлекающие вопросы: суперсила СПИН</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill i">I</span> Вопросы о <em>последствиях</em> и <em>цене</em> проблемы.</p>
+      <ul>
+        <li><strong>Цель:</strong> показать, что проблема больше, чем кажется.</li>
+        <li>Соединяют боль с деньгами, временем, репутацией, стрессом.</li>
+        <li>Именно они <strong>сильнее всего влияют</strong> на успех крупной продажи.</li>
+      </ul>
+      <div class="box warn"><div class="t">Почему это работает</div>Клиент часто <u>привык</u> к проблеме и недооценивает её. Извлекающие вопросы «снимают анестезию».</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«К чему это приводит?», «Как это влияет на…?», «Во что обходится…?»</h3>
+      <p style="margin-top:12px">Каждый ответ — новый слой последствий. Проблема растёт в глазах клиента.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>28</span></div>
+</section>
+
+<!-- 29 why amplify -->
+<section class="slide">
+  <div class="head"><div class="kicker">Психология</div><h2>Зачем усиливать проблему</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Вернёмся к уравнению ценности:</p>
+      <div class="ex"><div class="k">Весы</div><h3>Проблема ⚖ Цена решения</h3></div>
+      <p style="margin-top:14px">Проблемные вопросы <em>кладут проблему на весы</em>. Извлекающие — <em>добавляют ей веса</em>, пока она не перевесит стоимость.</p>
+    </div>
+    <div>
+      <div class="box"><div class="t">Без I-вопросов</div>«Да, иногда теряем пару заявок, но это мелочь» → сделки нет.</div>
+      <div class="box warn"><div class="t">С I-вопросами</div>«Стоп… 5 заявок в день × средний чек × 20 дней = минус N млн в месяц, плюс отдел перегружен и люди выгорают» → потребность стала явной.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>29</span></div>
+</section>
+
+<!-- 30 I examples -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Примеры извлекающих вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q i"><b>Деньги</b>Во сколько примерно обходятся эти потери за месяц?</div>
+      <div class="q i"><b>Время</b>Сколько часов команда тратит на исправление этих ошибок?</div>
+      <div class="q i"><b>Цепочка</b>А как задержки в одном отделе сказываются на других?</div>
+      <div class="q i"><b>Клиенты</b>Как это влияет на удержание и лояльность клиентов?</div>
+    </div>
+    <div>
+      <div class="q i"><b>Репутация</b>Что думают клиенты, когда сталкиваются с этой проблемой?</div>
+      <div class="q i"><b>Люди</b>Как перегрузка отражается на команде и текучке кадров?</div>
+      <div class="q i"><b>Рост</b>Не мешает ли это масштабироваться так, как хотелось бы?</div>
+      <div class="q i"><b>Будущее</b>Что будет, если ничего не менять ещё год?</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>30</span></div>
+</section>
+
+<!-- 31 I chain -->
+<section class="slide">
+  <div class="head"><div class="kicker">Техника</div><h2>Цепочка последствий</h2></div>
+  <div class="body">
+    <p>Извлекающие вопросы работают <em>лесенкой</em>: каждый ответ — почва для следующего вопроса.</p>
+    <div class="funnel" style="margin-top:14px">
+      <div class="step a2" style="width:70%">Проблема: заявки теряются</div>
+      <div class="step a3" style="width:74%">I₁: → клиенты уходят к конкурентам</div>
+      <div class="step a3" style="width:78%">I₂: → падает выручка отдела</div>
+      <div class="step a3" style="width:82%">I₃: → менеджеры в стрессе, растёт текучка</div>
+      <div class="step a3" style="width:86%">I₄: → тормозится весь план роста компании</div>
+    </div>
+    <div class="box good"><div class="t">Идея</div>Одна «мелкая» проблема разворачивается в системную угрозу бизнесу. Теперь решение выглядит не расходом, а спасением.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>31</span></div>
+</section>
+
+<!-- 32 I hardest -->
+<section class="slide">
+  <div class="head"><div class="kicker">Почему сложно</div><h2>Извлекающие требуют подготовки</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Это самые трудные вопросы — их <strong>нельзя импровизировать</strong> хорошо. Нужна заготовка.</p>
+      <ul>
+        <li>Заранее продумайте <strong>3–4 проблемы</strong> клиента.</li>
+        <li>Для каждой — цепочку возможных последствий.</li>
+        <li>Свяжите с тем, что важно <em>именно этому</em> ЛПР (деньги, время, риски, карьера).</li>
+      </ul>
+    </div>
+    <div class="box warn"><div class="t">Не переусердствуйте</div>Цель — осознание, а не запугивание. Если клиент чувствует давление или манипуляцию — вы перегнули. Держите тон партнёра, а не «продавана».</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>32</span></div>
+</section>
+
+<!-- 33 I dialog -->
+<section class="slide">
+  <div class="head"><div class="kicker">Разбор диалога</div><h2>Извлекающие в действии</h2></div>
+  <div class="body dialog">
+    <div class="row"><span class="r">Продавец:</span> Вы сказали, что часть заявок обрабатывается с задержкой. <span class="tag p">P</span></div>
+    <div class="row"><span class="c">Клиент:</span> Да, в пик не успеваем, бывает.</div>
+    <div class="row"><span class="r">Продавец:</span> А что обычно происходит с клиентом, который не дождался ответа? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Клиент:</span> Ну… уходит к конкуренту, скорее всего.</div>
+    <div class="row"><span class="r">Продавец:</span> Сколько таких в неделю примерно? И какой средний чек? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Клиент:</span> Штук 10… по 150 тысяч. Хм, это же полтора миллиона в неделю…</div>
+    <div class="row"><span class="r">Продавец:</span> А как это сказывается на плане отдела и на настроении команды? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Клиент:</span> Честно — план горит, ребята на нервах. Надо что-то решать.</div>
+    <div class="box good" style="margin-top:6px"><div class="t">Что произошло</div>Клиент <u>сам</u> посчитал потери и <u>сам</u> сказал «надо решать». Продавец не давил — он спрашивал.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>33</span></div>
+</section>
+
+<!-- 34 I exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 3 · 15 минут</div><h2>Практика: стройте цепочку</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Возьмите <strong>одну проблему</strong> клиента из упражнения 2.</li>
+        <li>Задайте себе 4 раза вопрос <em>«И к чему это приводит?»</em>.</li>
+        <li>Постройте лесенку из 4 последствий до уровня «деньги / стратегия».</li>
+        <li>Сформулируйте 4 извлекающих вопроса по этой цепочке.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="box good"><div class="t">Чек хорошего I-вопроса</div>После него проблема в глазах клиента стала <strong>дороже</strong>, чем была минуту назад.</div>
+      <div class="box"><div class="t">В парах</div>«Клиент» отвечает честно и в конце оценивает по шкале 1–10, насколько вырос масштаб проблемы.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>34</span></div>
+</section>
+
+<!-- 35 SECTION 6: N -->
+<section class="slide section">
+  <div class="kicker">Модуль 6 · буква N</div>
+  <h1><span style="color:var(--n)">Направляющие</span><br>вопросы</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Финал воронки: клиент сам проговаривает выгоду решения. Лучшая продажа — та, где покупатель убеждает себя сам.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>35</span></div>
+</section>
+
+<!-- 36 N definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Need-payoff Questions</div><h2>Направляющие вопросы: суть</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill n">N</span> Вопросы о <em>ценности</em> и <em>пользе</em> решения проблемы.</p>
+      <ul>
+        <li><strong>Цель:</strong> заставить клиента озвучить выгоду <em>своими словами</em>.</li>
+        <li>Переводят скрытую потребность в <strong>явную</strong>.</li>
+        <li>Готовят почву для лёгкого закрытия и защиты от возражений.</li>
+      </ul>
+      <div class="box good"><div class="t">Магия</div>Люди не спорят с собственными выводами. Когда клиент сам сказал «это было бы полезно» — половина продажи сделана.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«Чем бы вам помогло, если бы…?», «Насколько важно было бы…?»</h3>
+      <p style="margin-top:12px">Смотрите вперёд — на желаемый результат, а не на боль.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>36</span></div>
+</section>
+
+<!-- 37 I vs N -->
+<section class="slide">
+  <div class="head"><div class="kicker">Не путать</div><h2>Извлекающие ≠ направляющие</h2></div>
+  <div class="body cols">
+    <div class="card i"><h3><span class="pill i">I</span> Извлекающие</h3><p>Смотрят в <strong>проблему</strong> и её последствия.</p><p style="margin-top:8px"><em>Негативный</em> фокус: «во что это обходится?»</p><p style="margin-top:8px">Наращивают <u>боль</u>.</p></div>
+    <div class="card n"><h3><span class="pill n">N</span> Направляющие</h3><p>Смотрят в <strong>решение</strong> и его пользу.</p><p style="margin-top:8px"><em>Позитивный</em> фокус: «чем бы вам это помогло?»</p><p style="margin-top:8px">Наращивают <u>желание</u>.</p></div>
+  </div>
+  <div class="box"><div class="t">Связка I → N</div><span style="color:var(--i);font-weight:700">I:</span> «Во что обходятся потерянные заявки?» → <span style="color:#12897d;font-weight:700">N:</span> «А если бы ни одна заявка не терялась — как бы это отразилось на выручке?»</div>
+  <div class="footer"><span>СПИН-продажи</span><span>37</span></div>
+</section>
+
+<!-- 38 N examples -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Примеры направляющих вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q n"><b>Польза</b>Чем бы вам помогло, если бы заявки обрабатывались автоматически?</div>
+      <div class="q n"><b>Ценность</b>Насколько важно для вас сократить потери до нуля?</div>
+      <div class="q n"><b>Результат</b>Что изменится, если команда перестанет работать в авралах?</div>
+      <div class="q n"><b>Приоритет</b>Почему для вас это сейчас важно решить?</div>
+    </div>
+    <div>
+      <div class="q n"><b>Масштаб</b>Если ускорить обработка вдвое — как это повлияет на рост?</div>
+      <div class="q n"><b>Люди</b>Как освободившееся время команда могла бы использовать?</div>
+      <div class="q n"><b>Кто ещё</b>Кому в компании это решение было бы особенно полезно?</div>
+      <div class="box"><div class="t">Приём</div>«А ещё чем это было бы полезно?» — простой способ, чтобы клиент назвал <em>несколько</em> выгод сам.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>38</span></div>
+</section>
+
+<!-- 39 N effect -->
+<section class="slide">
+  <div class="head"><div class="kicker">Эффект</div><h2>Клиент продаёт себе сам</h2></div>
+  <div class="body cols">
+    <div class="dialog">
+      <div class="row"><span class="r">Продавец:</span> Если бы вы могли обрабатывать все заявки без задержек — что бы это дало? <span class="tag n">N</span></div>
+      <div class="row"><span class="c">Клиент:</span> Мы бы не теряли те полтора миллиона в неделю. И клиенты были бы довольнее.</div>
+      <div class="row"><span class="r">Продавец:</span> А что ещё это изменило бы для команды? <span class="tag n">N</span></div>
+      <div class="row"><span class="c">Клиент:</span> Ребята выдохнули бы, перестали гореть. И я бы наконец занялся развитием, а не тушением пожаров.</div>
+    </div>
+    <div class="box good"><div class="t">Кто сейчас перечислил выгоды продукта?</div><strong>Сам клиент.</strong> Вам осталось только показать, что ваше решение это и обеспечивает. Возражать против своих же слов клиент не станет.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>39</span></div>
+</section>
+
+<!-- 40 N danger -->
+<section class="slide">
+  <div class="head"><div class="kicker">Осторожно</div><h2>Опасность преждевременных N-вопросов</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="box warn"><div class="t">❌ Рано</div>«Чем бы вам помогла наша CRM?» — <em>до</em> того, как клиент признал проблему. Ответ: «Да ничем, нас всё устраивает».</div>
+      <div class="box good"><div class="t">✅ Вовремя</div>N-вопрос после того, как клиент через I-вопросы <u>сам</u> осознал масштаб боли. Тогда он с радостью рисует выгоды.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Золотое правило порядка</div>
+      <h3>Нет боли → нет смысла в N</h3>
+      <p style="margin-top:12px">Направляющие вопросы работают <u>только</u> на разогретой почве. Сначала P и I, и лишь потом N. Иначе выглядите как навязчивый продавец.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>40</span></div>
+</section>
+
+<!-- 41 N exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 4 · 12 минут</div><h2>Практика: направляющие вопросы</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Возьмите цепочку последствий из упражнения 3.</li>
+        <li>«Переверните» каждое последствие в <strong>выгоду</strong>.</li>
+        <li>Сформулируйте 4 направляющих вопроса — так, чтобы клиент сам назвал эти выгоды.</li>
+      </ol>
+    </div>
+    <div>
+      <table>
+        <tr><th>Последствие (I)</th><th>Направляющий вопрос (N)</th></tr>
+        <tr><td>Теряем 1,5 млн/нед.</td><td>«Как бы сказалось на бюджете, если бы эти деньги оставались у вас?»</td></tr>
+        <tr><td>Команда выгорает</td><td>«Что изменилось бы для команды без авралов?»</td></tr>
+      </table>
+      <div class="box good"><div class="t">Итог модуля</div>У вас готов полный набор вопросов S-P-I-N под ваш продукт.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>41</span></div>
+</section>
+
+<!-- 42 FULL DIALOG -->
+<section class="slide">
+  <div class="head"><div class="kicker">Кейс целиком</div><h2>Полный диалог СПИН</h2></div>
+  <div class="body dialog" style="font-size:15.5px">
+    <div class="row"><span class="r">П:</span> Сколько менеджеров у вас обрабатывают входящие заявки? <span class="tag s">S</span></div>
+    <div class="row"><span class="c">К:</span> Пятеро.</div>
+    <div class="row"><span class="r">П:</span> А все заявки успеваете отрабатывать в течение дня? <span class="tag p">P</span></div>
+    <div class="row"><span class="c">К:</span> В сезон — нет, копятся.</div>
+    <div class="row"><span class="r">П:</span> Что происходит с теми, до кого не дошли руки? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">К:</span> Часть остывает, часть уходит к конкурентам.</div>
+    <div class="row"><span class="r">П:</span> Сколько таких в неделю и какой средний чек? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">К:</span> Заявок 10, чек 150к… получается около 1,5 млн в неделю. Ого.</div>
+    <div class="row"><span class="r">П:</span> А как эти авралы влияют на команду? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">К:</span> Люди устают, двое уже намекали на уход.</div>
+    <div class="row"><span class="r">П:</span> Если бы ни одна заявка не терялась — что бы это дало компании? <span class="tag n">N</span></div>
+    <div class="row"><span class="c">К:</span> Плюс несколько миллионов в месяц и спокойная команда. Это то, что нам нужно.</div>
+    <div class="row"><span class="r">П:</span> Тогда покажу, как наша система автоматически ловит и распределяет каждую заявку… <span style="color:var(--accent2);font-weight:700">→ демонстрация</span></div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>42</span></div>
+</section>
+
+<!-- 43 SECTION 7: FAB -->
+<section class="slide section">
+  <div class="kicker">Модуль 7</div>
+  <h1>Характеристики,<br>Преимущества, Выгоды<br><span style="color:var(--accent)">(ХПВ / FAB)</span></h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Как презентовать решение так, чтобы клиент услышал не «фичи», а ответ на свою боль.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>43</span></div>
+</section>
+
+<!-- 44 FAB definitions -->
+<section class="slide">
+  <div class="head"><div class="kicker">Три уровня языка продукта</div><h2>Что такое ХПВ</h2></div>
+  <div class="body cols3">
+    <div class="card"><h3>Характеристика</h3><p><em>Факт</em> о продукте.</p><p style="margin-top:6px">«Система работает в облаке».</p><p style="margin-top:6px;color:var(--muted)">Клиенту всё равно.</p></div>
+    <div class="card accent"><h3>Преимущество</h3><p>Что характеристика <em>делает</em>.</p><p style="margin-top:6px">«Позволяет работать откуда угодно».</p><p style="margin-top:6px;color:var(--muted)">Уже лучше.</p></div>
+    <div class="card n"><h3>Выгода</h3><p>Как это решает <em>признанную</em> проблему клиента.</p><p style="margin-top:6px">«Ваши менеджеры не потеряют ни одной заявки даже удалённо — те самые 1,5 млн/нед.»</p><p style="margin-top:6px;color:#12897d">Продаёт.</p></div>
+  </div>
+  <div class="box good"><div class="t">Правило</div>Выгода = преимущество, привязанное к <strong>явной потребности</strong>, которую клиент уже озвучил через N-вопросы.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>44</span></div>
+</section>
+
+<!-- 45 FAB examples -->
+<section class="slide">
+  <div class="head"><div class="kicker">Сравнение</div><h2>Примеры: одно и то же тремя языками</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Характеристика</th><th>Преимущество</th><th>Выгода (под боль клиента)</th></tr>
+      <tr><td>Автоответчик 24/7</td><td>Отвечает без участия человека</td><td>«Ночные заявки больше не теряются — плюс те лиды, что раньше уходили»</td></tr>
+      <tr><td>Интеграция с CRM</td><td>Данные не надо вводить вручную</td><td>«Исчезнут ошибки ручного ввода, из-за которых вы теряли клиентов»</td></tr>
+      <tr><td>Дашборд аналитики</td><td>Показывает метрики в реальном времени</td><td>«Вы примете решение по цифрам, а не вслепую — как вы и хотели»</td></tr>
+    </table>
+    <div class="box warn"><div class="t">Ловушка новичка</div>Заваливать клиента характеристиками. Чем их больше — тем больше поводов для возражений и цены. Говорите <strong>выгодами</strong>.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>45</span></div>
+</section>
+
+<!-- 46 FAB when -->
+<section class="slide">
+  <div class="head"><div class="kicker">Что когда работает</div><h2>Преимущества vs выгоды по типу продажи</h2></div>
+  <div class="body cols">
+    <div>
+      <table>
+        <tr><th></th><th>Малые</th><th>Крупные</th></tr>
+        <tr><td>Характеристики</td><td>Слабо</td><td>Почти не влияют</td></tr>
+        <tr><td>Преимущества</td><td>Помогают</td><td>Дают эффект в моменте, но не долго</td></tr>
+        <tr><td>Выгоды</td><td>Хорошо</td><td>Сильнейший фактор</td></tr>
+      </table>
+    </div>
+    <div class="ex">
+      <div class="k">Вывод</div>
+      <h3>В крупных продажах выигрывают выгоды</h3>
+      <p style="margin-top:12px">Но выгоду <u>невозможно</u> сформулировать, если вы не выявили потребность. Вот почему ХПВ идёт <em>после</em> блока СПИН-вопросов, а не вместо него.</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>46</span></div>
+</section>
+
+<!-- 47 FAB exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 5 · 10 минут</div><h2>Практика: переведите фичи в выгоды</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Выпишите <strong>5 характеристик</strong> вашего продукта.</li>
+        <li>Для каждой — преимущество (что делает).</li>
+        <li>Привяжите к конкретной боли клиента → выгода.</li>
+        <li>Проговорите вслух: «Вы говорили, что… — наше решение…, а значит вы…».</li>
+      </ol>
+    </div>
+    <div>
+      <div class="box good"><div class="t">Шаблон фразы-выгоды</div>«Вы упоминали <u>[проблема клиента]</u>. Наша <u>[характеристика]</u> <u>[что делает]</u>, поэтому вы <u>[выгода клиента]</u>».</div>
+      <div class="box"><div class="t">Проверка</div>В формулировке звучит <strong>слово клиента</strong> из его же ответов? Если да — попадание.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>47</span></div>
+</section>
+
+<!-- 48 SECTION 8: OBJECTIONS -->
+<section class="slide section">
+  <div class="kicker">Модуль 8</div>
+  <h1>Работа<br>с возражениями</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Лучшее возражение — то, которое не прозвучало. СПИН предотвращает большинство из них.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>48</span></div>
+</section>
+
+<!-- 49 prevention -->
+<section class="slide">
+  <div class="head"><div class="kicker">Смена парадигмы</div><h2>Профилактика важнее обработки</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Открытие Рэкхема: продавцы, у которых <em>мало</em> возражений, продают больше — не потому что лучше «отрабатывают», а потому что <strong>предотвращают</strong>.</p>
+      <ul>
+        <li>Много возражений = мало работали с проблемой (I-вопросы).</li>
+        <li>Раннее «дорого» = не создана ценность.</li>
+        <li>«Мне надо подумать» = потребность не стала явной (мало N).</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Диагностика</div>
+      <h3>Возражение — это обратная связь о вашей воронке вопросов</h3>
+      <p style="margin-top:12px">Не «боритесь» с ним, а спросите себя: какого вопроса СПИН не хватило на предыдущем этапе?</p>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>49</span></div>
+</section>
+
+<!-- 50 objection types -->
+<section class="slide">
+  <div class="head"><div class="kicker">Классификация</div><h2>Три корня возражений</h2></div>
+  <div class="body cols3">
+    <div class="card p"><h3>💰 Ценность</h3><p>«Дорого», «не вижу смысла».</p><p style="margin-top:8px;color:var(--muted)">Причина: проблема кажется меньше цены.</p><p style="margin-top:6px"><strong>Лечим:</strong> вернуться к I-вопросам.</p></div>
+    <div class="card i"><h3>🤔 Потребность</h3><p>«Нам это не нужно», «нас всё устраивает».</p><p style="margin-top:8px;color:var(--muted)">Причина: боль не осознана.</p><p style="margin-top:6px"><strong>Лечим:</strong> P- и I-вопросы.</p></div>
+    <div class="card s"><h3>🛡️ Доверие</h3><p>«А вдруг не сработает?», «а гарантии?».</p><p style="margin-top:8px;color:var(--muted)">Причина: страх риска.</p><p style="margin-top:6px"><strong>Лечим:</strong> кейсы, соцдоказательство, пилот.</p></div>
+  </div>
+  <div class="box"><div class="t">Диагноз по возражению</div>Сначала определите <em>корень</em>, потом отвечайте. Ответ «в лоб» на скрытую причину не работает.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>50</span></div>
+</section>
+
+<!-- 51 price objection -->
+<section class="slide">
+  <div class="head"><div class="kicker">Самое частое</div><h2>Возражение «Дорого»</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="box warn"><div class="t">Чего НЕ делать</div>Сразу давать скидку. Это подтверждает: «да, я столько не стою», и обесценивает продукт.</div>
+      <div class="box good"><div class="t">Что делать</div>Вернуть на весы ценности. Напомнить цифры, которые <u>сам клиент</u> назвал на этапе I-вопросов.</div>
+    </div>
+    <div class="dialog">
+      <div class="row"><span class="c">К:</span> Дороговато.</div>
+      <div class="row"><span class="r">П:</span> Понимаю. Давайте сопоставим: вы говорили про потери около 1,5 млн в неделю. Решение окупается за первую же неделю — а дальше это чистый плюс. С чем именно сравниваем «дорого»?</div>
+      <div class="row"><span class="c">К:</span> …когда так считать — действительно окупается.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>51</span></div>
+</section>
+
+<!-- 52 objection algorithm -->
+<section class="slide">
+  <div class="head"><div class="kicker">Алгоритм</div><h2>4 шага обработки возражения</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card accent"><h3>1 · Выслушать и принять</h3><p>«Понимаю вас» — без спора. Дайте договорить.</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>2 · Уточнить вопросом</h3><p>«Что именно вызывает сомнение?» — вскрываем настоящую причину.</p></div>
+    </div>
+    <div>
+      <div class="card accent"><h3>3 · Ответить по сути</h3><p>Через выгоду и цифры клиента, а не оправдания.</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>4 · Проверить и двинуться</h3><p>«Это снимает вопрос?» → следующий шаг сделки.</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Мантра</div>Возражение — это <strong>вопрос</strong>, а не «нет». Клиент, который возражает, всё ещё в диалоге.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>52</span></div>
+</section>
+
+<!-- 53 objection scripts -->
+<section class="slide">
+  <div class="head"><div class="kicker">Скрипты</div><h2>Ответы на частые возражения</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Возражение</th><th>Реакция по СПИН</th></tr>
+      <tr><td>«Нам это не нужно»</td><td>«Возможно. А как вы сейчас решаете [проблему]? Сколько это стоит времени/денег?» → назад к P/I</td></tr>
+      <tr><td>«Мне надо подумать»</td><td>«Конечно. Что именно хочется взвесить — цену, сроки или результат?» → вскрыть настоящую причину</td></tr>
+      <tr><td>«У нас уже есть поставщик»</td><td>«Отлично, что довольны. А что бы вы улучшили, будь такая возможность?» → скрытая потребность</td></tr>
+      <tr><td>«Пришлите КП, мы посмотрим»</td><td>«Пришлю. Чтобы КП било в цель — что для вас критично: [варианты]?» → удержать диалог</td></tr>
+      <tr><td>«Дорого»</td><td>«С чем сравниваем? Давайте посчитаем в цифрах ваших потерь» → уравнение ценности</td></tr>
+    </table>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>53</span></div>
+</section>
+
+<!-- 54 SECTION 9: COMMITMENT -->
+<section class="slide section">
+  <div class="kicker">Модуль 9</div>
+  <h1>Получение<br>обязательств</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Как завершать встречу конкретным шагом вперёд — а не расплывчатым «я подумаю».</p>
+  <div class="footer"><span>СПИН-продажи</span><span>54</span></div>
+</section>
+
+<!-- 55 4 outcomes -->
+<section class="slide">
+  <div class="head"><div class="kicker">Итог встречи</div><h2>4 возможных исхода</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card n"><h3>✅ Заказ</h3><p>Клиент подписал/оплатил. Идеал для малых продаж.</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>➡️ Прогресс</h3><p>Конкретное действие, двигающее сделку: встреча с ЛПР, пилот, ТЗ, демо для команды.</p></div>
+    </div>
+    <div>
+      <div class="card p"><h3>⏸️ Отсрочка</h3><p>«Спасибо, мы подумаем/позвоним». Движения нет — по сути мягкий отказ.</p></div>
+      <div class="card p" style="margin-top:10px"><h3>❌ Отказ</h3><p>Явное «нет». Иногда честнее отсрочки — освобождает время.</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Цель крупной встречи</div>Не «продать сразу», а получить <strong>прогресс</strong>. Успешная встреча = согласованный следующий шаг.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>55</span></div>
+</section>
+
+<!-- 56 progress vs continuation -->
+<section class="slide">
+  <div class="head"><div class="kicker">Различайте</div><h2>Прогресс vs отсрочка</h2></div>
+  <div class="body cols">
+    <div class="card n"><h3>Прогресс — двигает сделку</h3><ul><li>«Организуем демо для вашего фин.директора в четверг»</li><li>«Запускаем пилот на 2 недели»</li><li>«Согласуем ТЗ до пятницы»</li></ul><p style="margin-top:8px"><em>Есть дата и действие.</em></p></div>
+    <div class="card p"><h3>Отсрочка — иллюзия успеха</h3><ul><li>«Мы вам перезвоним»</li><li>«Оставьте материалы»</li><li>«Надо всё обдумать»</li></ul><p style="margin-top:8px"><em>Нет ни даты, ни обязательства.</em></p></div>
+  </div>
+  <div class="box warn"><div class="t">Ловушка оптимизма</div>Новички считают вежливую отсрочку «хорошей встречей». Мерило одно: <strong>появился ли конкретный следующий шаг с датой?</strong></div>
+  <div class="footer"><span>СПИН-продажи</span><span>56</span></div>
+</section>
+
+<!-- 57 how to get commitment -->
+<section class="slide">
+  <div class="head"><div class="kicker">Техника закрытия по СПИН</div><h2>Как получить обязательство</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card accent"><h3>1 · Проверьте, закрыты ли главные вопросы</h3><p>«Всё ли важное мы обсудили?»</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>2 · Суммируйте выгоды словами клиента</h3><p>«Итак, вам важно перестать терять заявки и разгрузить команду…»</p></div>
+    </div>
+    <div>
+      <div class="card accent"><h3>3 · Предложите конкретный шаг</h3><p>«Логичный следующий шаг — пилот на 2 недели. Запустим со вторника?»</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>4 · Зафиксируйте договорённость</h3><p>Дата, ответственные, что каждая сторона делает.</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Ключ</div>Предлагайте шаг, который клиенту <strong>легко сказать «да»</strong> и который реально двигает сделку. Не форсируйте финал раньше времени.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>57</span></div>
+</section>
+
+<!-- 58 SECTION 10: PREP -->
+<section class="slide section">
+  <div class="kicker">Модуль 10</div>
+  <h1>Подготовка<br>к встрече</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Мастерство СПИН на 70% создаётся до встречи. Планирование — ваше конкурентное преимущество.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>58</span></div>
+</section>
+
+<!-- 59 planning checklist -->
+<section class="slide">
+  <div class="head"><div class="kicker">Чек-лист</div><h2>План СПИН-встречи</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>☐ Что я уже знаю о клиенте (ситуация)?</li>
+        <li>☐ Какие <strong>3 проблемы</strong> вероятны у него?</li>
+        <li>☐ Какие <strong>проблемные вопросы</strong> их вскроют?</li>
+        <li>☐ Какие <strong>последствия</strong> у каждой проблемы (I)?</li>
+        <li>☐ Какие <strong>направляющие вопросы</strong> подведут к выгоде?</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>☐ Какие <strong>выгоды</strong> продукта закроют эти боли?</li>
+        <li>☐ Какие <strong>возражения</strong> возможны и мой ответ?</li>
+        <li>☐ Какой <strong>прогресс</strong> я хочу получить на выходе?</li>
+        <li>☐ Кто ЛПР и кто ещё влияет на решение?</li>
+      </ul>
+      <div class="box good"><div class="t">Правило</div>Не идите на встречу без списка проблемных и извлекающих вопросов на бумаге.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>59</span></div>
+</section>
+
+<!-- 60 question matrix -->
+<section class="slide">
+  <div class="head"><div class="kicker">Рабочий шаблон</div><h2>Матрица вопросов к встрече</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Гипотеза проблемы</th><th>Проблемный (P)</th><th>Извлекающий (I)</th><th>Направляющий (N)</th></tr>
+      <tr><td>Теряют заявки</td><td>«Все ли успеваете обработать?»</td><td>«Во что обходятся потерянные лиды?»</td><td>«Что даст нулевая потеря заявок?»</td></tr>
+      <tr><td>Ошибки вручную</td><td>«Бывают ли ошибки ввода?»</td><td>«К каким последствиям приводят?»</td><td>«Чем поможет автоматизация?»</td></tr>
+      <tr><td>Нет аналитики</td><td>«Насколько прозрачны продажи?»</td><td>«Сколько теряете от решений вслепую?»</td><td>«Как поможет видеть цифры онлайн?»</td></tr>
+    </table>
+    <div class="box"><div class="t">Заполните под себя</div>3–4 строки такой матрицы — и у вас готовый сценарий любой встречи.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>60</span></div>
+</section>
+
+<!-- 61 SECTION 11: PRACTICE -->
+<section class="slide section">
+  <div class="kicker">Модуль 11</div>
+  <h1>Практика:<br>ролевые игры</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Пришло время собрать всё вместе. Навык живёт только в практике.</p>
+  <div class="footer"><span>СПИН-продажи</span><span>61</span></div>
+</section>
+
+<!-- 62 role play 1 -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ролевая игра 1 · 20 минут</div><h2>Сценарий «Скептичный директор»</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Роли</div>
+      <ul>
+        <li><strong>Продавец</strong> — ведёт встречу по СПИН.</li>
+        <li><strong>Клиент</strong> — директор, «у нас и так всё нормально».</li>
+        <li><strong>Наблюдатель</strong> — отмечает вопросы по чек-листу.</li>
+      </ul>
+      <p style="margin-top:10px">Меняйтесь ролями каждые 7 минут.</p>
+    </div>
+    <div>
+      <div class="box"><div class="t">Легенда для клиента</div>Компания растёт, заявок всё больше, но вы этого «не признаёте» сразу. Раскрывайтесь только под хорошими I-вопросами.</div>
+      <div class="box good"><div class="t">Задача продавца</div>Довести клиента до того, чтобы он <u>сам</u> сказал «надо решать» — без единой презентации в начале.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>62</span></div>
+</section>
+
+<!-- 63 role play 2 -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ролевая игра 2 · 20 минут</div><h2>Сценарий «У нас уже есть поставщик»</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Вводная</div>
+      <p>Клиент доволен текущим решением. Ваша задача — не критиковать конкурента, а вопросами вскрыть <em>скрытое</em> недовольство и усилить его.</p>
+    </div>
+    <div>
+      <div class="box"><div class="t">Запрещённые приёмы</div>❌ «А вот у нас лучше…» ❌ давление ❌ презентация с ходу. Только вопросы СПИН.</div>
+      <div class="box good"><div class="t">Цель — прогресс</div>Договориться о конкретном следующем шаге (демо, пилот, встреча с ЛПР), а не о продаже сразу.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>63</span></div>
+</section>
+
+<!-- 64 observer checklist -->
+<section class="slide">
+  <div class="head"><div class="kicker">Инструмент</div><h2>Чек-лист наблюдателя</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Отмечайте по ходу игры (галочка за каждый удачный вопрос):</p>
+      <ul>
+        <li><span class="pill s">S</span> Ситуационные — не слишком много? ☐☐☐</li>
+        <li><span class="pill p">P</span> Проблемные — вскрыл боль? ☐☐☐</li>
+        <li><span class="pill i">I</span> Извлекающие — усилил проблему? ☐☐☐☐</li>
+        <li><span class="pill n">N</span> Направляющие — клиент назвал выгоду сам? ☐☐☐</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box"><div class="t">Оцените по шкале 1–5</div>
+        <ul>
+          <li>Слушал больше, чем говорил?</li>
+          <li>Не прыгнул рано к решению?</li>
+          <li>Клиент сам сказал «мне это нужно»?</li>
+          <li>Договорились о конкретном шаге?</li>
+        </ul>
+      </div>
+      <div class="box good"><div class="t">Обратная связь</div>Сначала — что было сильно, потом — 1 зона роста. Конкретно и по-доброму.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>64</span></div>
+</section>
+
+<!-- 65 common mistakes -->
+<section class="slide">
+  <div class="head"><div class="kicker">Работа над ошибками</div><h2>7 типичных ошибок новичков</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>1. Начинают встречу с <em>презентации</em>, а не вопросов.</li>
+        <li>2. Тонут в <em>ситуационных</em> вопросах.</li>
+        <li>3. Прыгают к решению после первой же боли.</li>
+        <li>4. Пропускают <em>извлекающие</em> — главную силу СПИН.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>5. Задают <em>направляющие</em> слишком рано.</li>
+        <li>6. Говорят характеристиками вместо выгод.</li>
+        <li>7. Уходят с «мы подумаем» вместо прогресса.</li>
+      </ul>
+      <div class="box good"><div class="t">Противоядие</div>Готовьтесь письменно, слушайте больше, чем говорите, и всегда выходите с датой следующего шага.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>65</span></div>
+</section>
+
+<!-- 66 30-60-90 -->
+<section class="slide">
+  <div class="head"><div class="kicker">Внедрение</div><h2>План освоения: 30 / 60 / 90 дней</h2></div>
+  <div class="body cols3">
+    <div class="card s"><h3>Первые 30 дней</h3><ul><li>Составить банк S-P-I-N вопросов под свой продукт</li><li>Готовить письменный план к каждой встрече</li><li>Фокус: задавать больше проблемных вопросов</li></ul></div>
+    <div class="card i"><h3>Дни 31–60</h3><ul><li>Отрабатывать <strong>извлекающие</strong> вопросы</li><li>Записывать встречи, разбирать воронку</li><li>Считать долю встреч с «прогрессом»</li></ul></div>
+    <div class="card n"><h3>Дни 61–90</h3><ul><li>Автоматизм всех 4 типов вопросов</li><li>Наставничество новичков</li><li>Замер: рост конверсии и среднего чека</li></ul></div>
+  </div>
+  <div class="box good"><div class="t">Метрика успеха</div>Доля встреч, закончившихся конкретным следующим шагом. Рост этого показателя = навык работает.</div>
+  <div class="footer"><span>СПИН-продажи</span><span>66</span></div>
+</section>
+
+<!-- 67 cheat sheet -->
+<section class="slide">
+  <div class="head"><div class="kicker">Забирайте с собой</div><h2>Шпаргалка СПИН на одну страницу</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Тип</th><th>Цель</th><th>Ключевые формулировки</th></tr>
+      <tr><td><span class="pill s">S</span> Ситуационные</td><td>Собрать контекст</td><td>«Как сейчас устроено…?», «Сколько…?» — <em>минимум</em></td></tr>
+      <tr><td><span class="pill p">P</span> Проблемные</td><td>Найти боль</td><td>«Что не устраивает…?», «Бывают ли трудности с…?»</td></tr>
+      <tr><td><span class="pill i">I</span> Извлекающие</td><td>Усилить боль</td><td>«К чему это приводит?», «Во что обходится?» — <em>максимум</em></td></tr>
+      <tr><td><span class="pill n">N</span> Направляющие</td><td>Показать ценность</td><td>«Чем бы помогло, если…?», «Насколько важно…?»</td></tr>
+    </table>
+    <div class="box"><div class="t">Правило одной строки</div>Ситуация → Проблема → Последствия → Ценность. Меньше говори, больше спрашивай, не спеши к решению.</div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>67</span></div>
+</section>
+
+<!-- 68 key takeaways -->
+<section class="slide">
+  <div class="head"><div class="kicker">Итоги</div><h2>7 главных выводов тренинга</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>1. В крупных продажах побеждает <strong>вопрос</strong>, а не презентация.</li>
+        <li>2. Порядок S→P→I→N — это психология осознания.</li>
+        <li>3. <strong>Извлекающие</strong> вопросы — сердце метода.</li>
+        <li>4. Клиент должен <strong>сам</strong> назвать выгоду (N).</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>5. Говорите <strong>выгодами</strong>, а не характеристиками.</li>
+        <li>6. Возражения <strong>предотвращают</strong>, а не «отрабатывают».</li>
+        <li>7. Успешная встреча = <strong>прогресс</strong>, а не «подумаю».</li>
+      </ul>
+      <div class="box good"><div class="t">Одна фраза на всю жизнь</div>«Не продавай — помоги клиенту купить, задавая правильные вопросы».</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>68</span></div>
+</section>
+
+<!-- 69 resources -->
+<section class="slide">
+  <div class="head"><div class="kicker">Дальше</div><h2>Ресурсы для развития</h2></div>
+  <div class="body cols">
+    <div>
+      <h3>📚 Книги</h3>
+      <ul>
+        <li>Нил Рэкхем — «СПИН-продажи» (SPIN Selling)</li>
+        <li>Нил Рэкхем — «СПИН-продажи. Практическое руководство»</li>
+        <li>М. Диксон, Б. Адамсон — «Чемпионы продаж»</li>
+        <li>Крис Восс — «Никаких компромиссов» (переговоры)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>🛠️ Практика</h3>
+      <ul>
+        <li>Ведите «банк вопросов» и пополняйте после каждой встречи</li>
+        <li>Записывайте и разбирайте свои звонки</li>
+        <li>Раз в неделю — ролевая игра с коллегой</li>
+      </ul>
+      <div class="box good"><div class="t">Правило 21 дня</div>Готовьте письменный СПИН-план к каждой встрече 3 недели подряд — и это станет привычкой.</div>
+    </div>
+  </div>
+  <div class="footer"><span>СПИН-продажи</span><span>69</span></div>
+</section>
+
+<!-- 70 thanks -->
+<section class="slide title">
+  <div class="kicker">Спасибо за работу</div>
+  <h1>Теперь вы<br>задаёте <span style="color:var(--accent)">правильные вопросы</span></h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Лучшие продавцы не убеждают — они помогают клиенту прийти к решению самому. Идите и практикуйте: первая же встреча по СПИН изменит ваш результат.</p>
+  <div class="stat">
+    <div><div class="n">S</div><div class="l">ситуация</div></div>
+    <div><div class="n">P</div><div class="l">проблема</div></div>
+    <div><div class="n">I</div><div class="l">последствия</div></div>
+    <div><div class="n">N</div><div class="l">ценность</div></div>
+  </div>
+  <div class="footer"><span>Тренинг по продажам · СПИН</span><span>70 / 70</span></div>
+</section>
+
+</div>
+
+<div class="ctl">
+  <button id="prev">‹ Назад</button>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">70</span></span>
+  <button id="next">Вперёд ›</button>
+</div>
+
+<script>
+  const deck=document.getElementById('deck');
+  let slides=[],idx=0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+    document.getElementById('cur').textContent=idx+1;
+    document.getElementById('tot').textContent=slides.length;
+    document.getElementById('prog').style.width=((idx+1)/slides.length*100)+'%';
+    location.hash=idx+1;
+  }
+  function go(n){idx=Math.max(0,Math.min(slides.length-1,n));render();}
+  document.getElementById('next').onclick=()=>go(idx+1);
+  document.getElementById('prev').onclick=()=>go(idx-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(idx+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(idx-1);}
+    else if(e.key==='Home')go(0);
+    else if(e.key==='End')go(slides.length-1);
+    else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+    else if(e.key.toLowerCase()==='p')window.print();
+  });
+  function init(){
+    slides=[...deck.querySelectorAll('.slide')];
+    const h=parseInt(location.hash.replace('#',''))||1;
+    idx=Math.min(slides.length-1,Math.max(0,h-1));
+    render();
+  }
+  window.addEventListener('load',init);
+</script>
+</body>
+</html>
