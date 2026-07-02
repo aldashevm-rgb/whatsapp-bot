@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СПИН для продаж металлопроката, ЖБИ и кабеля · Горячие заявки</title>
+<style>
+  :root{
+    --bg:#0d1b2a;--bg2:#132a43;--ink:#0d1b2a;
+    --accent:#f2a900;--accent2:#2ec4b6;--accent3:#e63946;
+    --paper:#fff;--muted:#5b6b7c;--line:#e3e8ee;
+    --s:#3a86ff;--p:#8338ec;--i:#e63946;--n:#2ec4b6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:#08131f;color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden;}
+  .deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{position:absolute;width:min(1160px,94vw);height:min(654px,92vh);
+    background:var(--paper);border-radius:18px;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);display:none;flex-direction:column;padding:52px 62px;}
+  .slide.active{display:flex;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(10px) scale(.995)}to{opacity:1;transform:none}}
+  .slide.section{background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);color:#fff;justify-content:center;}
+  .slide.section .kicker{color:var(--accent)}
+  .slide.title{background:radial-gradient(1200px 600px at 20% -10%,#1c3a5c 0,var(--bg) 55%);color:#fff;justify-content:center;}
+  .kicker{font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+  h1{font-size:52px;line-height:1.06;font-weight:800;letter-spacing:-.5px}
+  h2{font-size:36px;line-height:1.1;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+  h3{font-size:22px;font-weight:700;margin-bottom:10px}
+  .lead{font-size:20px;color:var(--muted);margin-top:12px;max-width:72ch}
+  p,li{font-size:18px;line-height:1.5}
+  .slide.section p,.slide.title p{opacity:.9}
+  ul,ol{padding-left:22px;margin-top:8px}
+  li{margin:8px 0}
+  li::marker{color:var(--accent)}
+  .slide.section strong,.slide.title strong{color:#fff}
+  em{color:var(--accent3);font-style:normal;font-weight:700}
+  .head{border-bottom:3px solid var(--line);padding-bottom:13px;margin-bottom:20px}
+  .body{flex:1;overflow:auto}
+  .body::-webkit-scrollbar{width:8px}.body::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .card{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .card.accent{border-left:6px solid var(--accent)}
+  .card.s{border-left:6px solid var(--s)}.card.p{border-left:6px solid var(--p)}
+  .card.i{border-left:6px solid var(--i)}.card.n{border-left:6px solid var(--n)}
+  .pill{display:inline-block;padding:4px 13px;border-radius:999px;font-size:14px;font-weight:700}
+  .pill.s{background:rgba(58,134,255,.12);color:var(--s)}
+  .pill.p{background:rgba(131,56,236,.12);color:var(--p)}
+  .pill.i{background:rgba(230,57,70,.12);color:var(--i)}
+  .pill.n{background:rgba(46,196,182,.14);color:#12897d}
+  .q{background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);
+     border-radius:10px;padding:11px 15px;margin:7px 0;font-size:17px}
+  .q.s{border-left-color:var(--s)}.q.p{border-left-color:var(--p)}
+  .q.i{border-left-color:var(--i)}.q.n{border-left-color:var(--n)}
+  .q b{color:var(--muted);font-weight:700;font-size:12.5px;display:block;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+  .dialog{font-size:16.5px;line-height:1.5}
+  .dialog .row{margin:6px 0}
+  .dialog .r{color:var(--muted);font-weight:700}
+  .dialog .c{color:var(--p);font-weight:700}
+  .tag{font-size:12px;font-weight:800;padding:2px 8px;border-radius:6px;color:#fff;margin-left:6px;vertical-align:middle}
+  .tag.s{background:var(--s)}.tag.p{background:var(--p)}.tag.i{background:var(--i)}.tag.n{background:var(--n)}
+  .box{background:#fff8e8;border:1px solid #f5e2b0;border-radius:12px;padding:15px 19px;margin-top:13px}
+  .box.warn{background:#fdecec;border-color:#f6c6c6}
+  .box.good{background:#e9f9f2;border-color:#bfe9d8}
+  .box .t{font-weight:800;margin-bottom:4px}
+  .ex{background:linear-gradient(135deg,#132a43,#0d1b2a);color:#fff;border-radius:14px;padding:19px 22px}
+  .ex .k{color:var(--accent);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:13px}
+  .ex h3{color:#fff}.ex li{color:#e8eef5}
+  table{border-collapse:collapse;width:100%;font-size:16px;margin-top:6px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--bg);color:#fff;font-weight:700}
+  tr:nth-child(even) td{background:#f7f9fc}
+  .funnel{display:flex;flex-direction:column;gap:9px;align-items:center;margin-top:8px}
+  .funnel .step{color:#fff;font-weight:700;border-radius:10px;padding:11px 16px;text-align:center;font-size:16px}
+  .funnel .a1{background:var(--s);width:92%}.funnel .a2{background:var(--p);width:76%}
+  .funnel .a3{background:var(--i);width:60%}.funnel .a4{background:var(--n);width:44%}
+  .stat{display:flex;gap:26px;flex-wrap:wrap;margin-top:10px}
+  .stat .n{font-size:48px;font-weight:800;color:var(--accent2)}
+  .stat .l{font-size:15px;color:var(--muted)}
+  .footer{position:absolute;bottom:15px;left:62px;right:62px;display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+  .slide.section .footer,.slide.title .footer{color:rgba(255,255,255,.5)}
+  .progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);z-index:50;transition:width .3s}
+  .ctl{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;align-items:center;
+       background:rgba(8,19,31,.8);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;color:#cdd8e4;font-size:13px}
+  .ctl button{background:#1c3a5c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px}
+  .ctl button:hover{background:#2a5688}
+  .counter{min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+  .hint{position:fixed;top:14px;right:16px;z-index:50;color:#6d8199;font-size:12px}
+  @media print{
+    html,body{overflow:visible;background:#fff;height:auto}
+    .progress,.ctl,.hint{display:none}
+    .deck{display:block!important;position:static!important;inset:auto}
+    .slide{display:flex!important;position:relative;width:100%;height:100vh;
+           border-radius:0;box-shadow:none;break-after:page;page-break-after:always;margin:0}
+    .slide:last-child{break-after:auto;page-break-after:auto}
+    .slide.active{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="hint">← → пробел · F — весь экран · P — печать/PDF</div>
+<div class="deck" id="deck">
+
+<!-- 1 TITLE -->
+<section class="slide title">
+  <div class="kicker">Тренинг отдела продаж · Металлопрокат · ЖБИ · Кабель</div>
+  <h1>СПИН на входящей заявке:<br>как <span style="color:var(--accent)">не сливать</span> горячих клиентов<br>в цену</h1>
+  <p class="lead">Снабженец сам звонит с заявкой — «дайте цену на арматуру». Что делать, чтобы закрыть весь объект, поднять чек и выиграть на сервисе, а не отдать сделку тому, кто на 200 тенге дешевле.</p>
+  <div class="stat">
+    <div><div class="n">4</div><div class="l">типа вопросов СПИН</div></div>
+    <div><div class="n">1 окно</div><div class="l">металл + ЖБИ + кабель</div></div>
+    <div><div class="n">+чек</div><div class="l">за счёт всей номенклатуры объекта</div></div>
+  </div>
+  <div class="footer"><span>СПИН для реселлера стройматериалов</span><span>Горячие лиды · программа</span></div>
+</section>
+
+<!-- 2 OUR SITUATION -->
+<section class="slide">
+  <div class="head"><div class="kicker">С чего начинаем</div><h2>Наша реальность: мы — перепродаём</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Мы закупаем и перепродаём <strong>металлопрокат, ЖБИ и кабель</strong>. Основной поток — <em>входящие горячие заявки</em>: снабженец уже определился, что ему нужно, и звонит узнать цену.</p>
+      <ul>
+        <li>Клиент <strong>уже готов покупать</strong> — вопрос у кого.</li>
+        <li>Он <strong>обзванивает 4–6 поставщиков</strong> и сравнивает.</li>
+        <li>Товар у всех +/- одинаковый — арматура есть арматура.</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Главный вопрос тренинга</div>
+      <h3>Если товар одинаковый, почему клиент должен купить именно у нас — и не за самую низкую цену?</h3>
+      <p style="margin-top:12px">Ответ — в вопросах, которые мы задаём, и в сервисе, который за ними стоит. Этому и учит СПИН.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>02</span></div>
+</section>
+
+<!-- 3 AGENDA -->
+<section class="slide">
+  <div class="head"><div class="kicker">Программа</div><h2>Что пройдём за тренинг</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li><strong>1.</strong> Почему «назвал цену → отправил КП» теряет клиентов</li>
+        <li><strong>2.</strong> Модель СПИН на входящей заявке</li>
+        <li><strong>3.</strong> Ситуационные вопросы — быстрая квалификация заявки</li>
+        <li><strong>4.</strong> Проблемные вопросы — боли снабженца</li>
+        <li><strong>5.</strong> Извлекающие — цена простоя объекта</li>
+        <li><strong>6.</strong> Направляющие — ценность нашего сервиса</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong>7.</strong> Наше УТП языком выгод</li>
+        <li><strong>8.</strong> Возражения: «дорого», «просто дайте прайс»</li>
+        <li><strong>9.</strong> Закрытие: счёт и резерв вместо «отправлю на почту»</li>
+        <li><strong>10.</strong> Скрипт входящего звонка + карточка в CRM</li>
+        <li><strong>11.</strong> Ролевые игры на наших заявках</li>
+      </ul>
+      <div class="box"><div class="t">Формат</div>Разбираем на реальных заявках этой недели. Много практики в парах.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>03</span></div>
+</section>
+
+<!-- 4 SECTION 1 -->
+<section class="slide section">
+  <div class="kicker">Модуль 1</div>
+  <h1>Почему «назвал цену<br>и отправил КП»<br>сливает горячих клиентов</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Самая частая ошибка на входящей заявке — превратиться в говорящий прайс-лист.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>04</span></div>
+</section>
+
+<!-- 5 ANATOMY OF HOT LEAD -->
+<section class="slide">
+  <div class="head"><div class="kicker">Что происходит на самом деле</div><h2>Анатомия горячей заявки</h2></div>
+  <div class="body">
+    <p>Снабженец звонит: <em>«Здравствуйте, почём у вас арматура 12-я А500С, тонн 15 надо?»</em>. Что за этим стоит:</p>
+    <div class="cols3" style="margin-top:12px">
+      <div class="card p"><h3>Он не первый раз звонит</h3><p>Вы — 3-й из 6 в его списке. Он записывает цены в столбик.</p></div>
+      <div class="card p"><h3>Это часть объекта</h3><p>За арматурой стоят бетон, плиты, кабель, сроки, бригада на стройке.</p></div>
+      <div class="card p"><h3>У него горит</h3><p>Ему нужно закрыть заявку и не сорвать график. Цена — не единственное, что важно.</p></div>
+    </div>
+    <div class="box warn"><div class="t">Если вы просто назвали цену</div>Вы стали строкой в его таблице сравнения. Победит самый дешёвый — и это, скорее всего, не вы. Вы отдали сделку без боя.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>05</span></div>
+</section>
+
+<!-- 6 PRICE WAR TRAP -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ловушка</div><h2>Почему нельзя воевать ценой</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>Всегда найдётся тот, кто <strong>уронит цену</strong> ещё ниже.</li>
+        <li>Демпинг убивает <strong>вашу маржу</strong> — вы работаете «в ноль».</li>
+        <li>Клиент, пришедший на цену, <strong>уйдёт на цену</strong> — никакой лояльности.</li>
+        <li>Скидка «в лоб» обесценивает — «значит, изначально накрутили».</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Другая логика</div>
+      <h3>Снабженцу важна не цена за тонну, а цена ошибки</h3>
+      <p style="margin-top:12px">Если из-за срыва поставки встанет объект — он потеряет в разы больше, чем сэкономил на цене. Наша задача — вопросами вывести разговор с «почём» на «что важно, чтобы объект не встал».</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>06</span></div>
+</section>
+
+<!-- 7 WHERE RESELLER WINS -->
+<section class="slide">
+  <div class="head"><div class="kicker">Наши козыри</div><h2>На чём реально выигрывает реселлер</h2></div>
+  <div class="body cols3">
+    <div class="card n"><h3>📦 Наличие</h3><p>Всё на складе здесь и сейчас, не «под заказ 3 недели».</p></div>
+    <div class="card n"><h3>🏗️ Одно окно</h3><p>Металл + ЖБИ + кабель одной машиной, одним счётом, одними документами.</p></div>
+    <div class="card n"><h3>🚚 Доставка</h3><p>На объект, с манипулятором/краном, разгрузка.</p></div>
+    <div class="card n"><h3>⏱️ Сроки</h3><p>Отгрузка день в день, точно к графику стройки.</p></div>
+    <div class="card n"><h3>💳 Отсрочка</h3><p>Работа с отсрочкой платежа — закрываем кассовый разрыв клиента.</p></div>
+    <div class="card n"><h3>📄 Документы</h3><p>Сертификаты, паспорта качества, ГОСТ — сразу и без нервов.</p></div>
+  </div>
+  <div class="box good"><div class="t">Вывод</div>Мы продаём не «арматуру», а <strong>надёжно закрытый объект без срывов</strong>. Всё это — поводы для вопросов СПИН.</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>07</span></div>
+</section>
+
+<!-- 8 WHAT BUYER REALLY BUYS -->
+<section class="slide">
+  <div class="head"><div class="kicker">Психология клиента</div><h2>Что на самом деле покупает снабженец</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card"><h3>Формально</h3><p>15 тонн арматуры А500С Ø12 по нужной цене.</p></div>
+      <div class="card accent" style="margin-top:12px"><h3>На самом деле</h3><ul style="margin-top:4px">
+        <li>Закрыть заявку и <em>не получить по шапке</em> от прораба/директора</li>
+        <li>Чтобы объект <em>не встал</em> из-за недовоза</li>
+        <li>Не искать 5 поставщиков — <em>сэкономить своё время</em></li>
+        <li>Быть уверенным в качестве и документах</li>
+      </ul></div>
+    </div>
+    <div class="ex">
+      <div class="k">Ключ к сделке</div>
+      <h3>Продавайте снабженцу спокойствие и его результат перед начальством</h3>
+      <p style="margin-top:12px">Тот, кто поймёт и закроет эти «настоящие» потребности, выиграет заявку даже не будучи самым дешёвым.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>08</span></div>
+</section>
+
+<!-- 9 QUESTIONS ROLE -->
+<section class="slide">
+  <div class="head"><div class="kicker">Наш инструмент</div><h2>Правило: цена в обмен на информацию</h2></div>
+  <div class="body cols">
+    <div>
+      <p>На горячем лиде нельзя допрашивать — клиент нетерпелив. Но и молча называть цену нельзя. Решение — <strong>дать вилку/ориентир и тут же задать вопрос</strong>.</p>
+      <div class="box good"><div class="t">Формула</div>«Арматура 12-я у нас есть в наличии, по 15 тоннам сделаю хорошую цену. Подскажите, это на какой объект и когда нужна отгрузка — подберу оптимально».</div>
+      <p style="margin-top:10px">Так вы и показали готовность, и начали <em>квалификацию</em>, и перехватили инициативу.</p>
+    </div>
+    <div class="ex">
+      <div class="k">Кто задаёт вопросы — тот ведёт</div>
+      <h3>Пока клиент спрашивает «почём» — он ведёт разговор к цене</h3>
+      <p style="margin-top:12px">Как только вы начали задавать вопросы — вы ведёте разговор к ценности и ко всей номенклатуре объекта.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>09</span></div>
+</section>
+
+<!-- 10 SECTION 2 -->
+<section class="slide section">
+  <div class="kicker">Модуль 2</div>
+  <h1>Модель СПИН<br>на входящей заявке</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Четыре типа вопросов, которые превращают «почём арматура» в «везите всё на объект от вас».</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>10</span></div>
+</section>
+
+<!-- 11 WHAT IS SPIN -->
+<section class="slide">
+  <div class="head"><div class="kicker">Расшифровка под нашу сферу</div><h2>Что такое С-П-И-Н</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q s"><b>S — Ситуационные</b>Что за объект, объём, сроки, вся ли номенклатура.</div>
+      <div class="q p"><b>P — Проблемные</b>Что со сроками, наличием, комплектностью, поставщиком.</div>
+      <div class="q i"><b>I — Извлекающие</b>Во что обойдётся срыв: простой, штраф, переделка.</div>
+      <div class="q n"><b>N — Направляющие</b>Клиент сам говорит, что удобнее взять всё у нас.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Логика</div>
+      <h3>Заявка → объект → риски срыва → ценность «одного окна»</h3>
+      <p style="margin-top:12px">Вы не уговариваете. Вопросами вы помогаете снабженцу увидеть: дешевле по строке ≠ выгоднее по объекту. И что закрыть всё в одном месте — надёжнее.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>11</span></div>
+</section>
+
+<!-- 12 FUNNEL -->
+<section class="slide">
+  <div class="head"><div class="kicker">Порядок вопросов</div><h2>Воронка вопросов на заявке</h2></div>
+  <div class="body cols">
+    <div class="funnel">
+      <div class="step a1">S · Что за объект и заявка</div>
+      <div class="step a2">P · Где риск: сроки, наличие, комплект</div>
+      <div class="step a3">I · Чем грозит срыв объекта</div>
+      <div class="step a4">N · Ценность одного окна и надёжности</div>
+      <div style="font-weight:800;color:var(--accent2);font-size:19px;margin-top:4px">↓ Счёт и резерв на всю номенклатуру</div>
+    </div>
+    <div>
+      <ul>
+        <li>Ситуационных — <strong>2–3, быстро</strong>: клиент горячий, не тяните.</li>
+        <li>Проблемные и извлекающие — <strong>сердце разговора</strong>.</li>
+        <li>Направляющие — когда клиент уже почувствовал риск.</li>
+      </ul>
+      <div class="box warn"><div class="t">Ошибка №1</div>Назвать цену и замолчать. Ошибка №2 — сразу предлагать «всё у нас», не показав, зачем это клиенту.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>12</span></div>
+</section>
+
+<!-- 13 HIDDEN VS EXPLICIT -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ключевое понятие</div><h2>Скрытая и явная потребность снабженца</h2></div>
+  <div class="body cols">
+    <div class="card p"><h3>Скрытая</h3><p><em>«Ну, бывает поставщик подводит по срокам…»</em></p><p style="margin-top:8px">Клиент терпит. На этом сделку у конкурента не отобрать.</p></div>
+    <div class="card n"><h3>Явная</h3><p><em>«Мне нужен поставщик, который гарантированно отгрузит день в день и привезёт всё сразу».</em></p><p style="margin-top:8px">Вот теперь мы — очевидный выбор.</p></div>
+  </div>
+  <div class="box good"><div class="t">Наша работа</div>Провести снабженца от «в целом всё нормально» к чёткому «мне важно вовремя, комплектно и с документами». Это делают вопросы <span class="pill i">I</span> и <span class="pill n">N</span>.</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>13</span></div>
+</section>
+
+<!-- 14 VALUE EQUATION -->
+<section class="slide">
+  <div class="head"><div class="kicker">Экономика решения</div><h2>Уравнение ценности: цена vs риск срыва</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="ex"><div class="k">Весы в голове снабженца</div><h3>Экономия на цене ⚖ Риск, что объект встанет</h3></div>
+      <ul style="margin-top:14px">
+        <li>«Дешевле на 3–5%» весит мало, если есть риск недовоза.</li>
+        <li>Извлекающие вопросы <em>показывают</em> цену простоя.</li>
+        <li>Когда риск на весах — наша надёжность стоит своих денег.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box warn"><div class="t">«У вас дороже»</div>Значит, риск срыва на весах ещё не лежит. Не спешите со скидкой — задайте извлекающие вопросы.</div>
+      <div class="box good"><div class="t">Правильный ход</div>«Смотрите, разница по цене — пара тысяч. А если 12-й арматуры не окажется в день заливки — во сколько встанет простой бригады и бетона?»</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>14</span></div>
+</section>
+
+<!-- 15 BUYER PORTRAIT -->
+<section class="slide">
+  <div class="head"><div class="kicker">Знай клиента</div><h2>Портрет снабженца: боли и KPI</h2></div>
+  <div class="body cols">
+    <div>
+      <h3>За что он отвечает</h3>
+      <ul>
+        <li>Закрыть заявку <strong>в срок и в бюджет</strong>.</li>
+        <li>Чтобы на объекте <strong>всё было вовремя</strong>.</li>
+        <li>Найти <strong>надёжного</strong> поставщика и не искать заново.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Чего он боится</h3>
+      <ul>
+        <li>Что <em>объект встанет</em> из-за него.</li>
+        <li>Пересортицы, брака, недовоза, проблем с документами.</li>
+        <li>Получить <em>по шапке</em> от прораба и директора.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box"><div class="t">Инсайт</div>Снабженец купит у того, с кем <strong>спокойнее</strong>. Наша задача на звонке — стать этим «спокойно».</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>15</span></div>
+</section>
+
+<!-- 16 DMU MAP -->
+<section class="slide">
+  <div class="head"><div class="kicker">Кто решает</div><h2>Карта лиц, влияющих на закупку</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Роль</th><th>Что важно</th><th>Наш ход</th></tr>
+      <tr><td>Снабженец / ОМТС</td><td>Цена, сроки, закрыть заявку, отсрочка</td><td>Основной контакт — ведём по СПИН</td></tr>
+      <tr><td>Прораб / ПТО</td><td>Марка, ГОСТ, комплектность, точно к графику</td><td>Аргументы про качество и сроки</td></tr>
+      <tr><td>Директор / собственник</td><td>Экономия по объекту в целом, надёжность</td><td>Считаем выгоду «одного окна», отсрочка</td></tr>
+      <tr><td>Бухгалтерия</td><td>Документы, НДС, отсрочка, оплата</td><td>Чистые закрывающие документы вовремя</td></tr>
+    </table>
+    <div class="box"><div class="t">Вопрос-разведчик</div>«С кем ещё согласуете выбор поставщика — с прорабом, с руководством?» — так вы поймёте, кому и какие аргументы нужны.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>16</span></div>
+</section>
+
+<!-- 17 SECTION 3: S -->
+<section class="slide section">
+  <div class="kicker">Модуль 3 · буква S</div>
+  <h1><span style="color:var(--s)">Ситуационные</span> вопросы:<br>быстрая квалификация заявки</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">За 2–3 вопроса понять объект, объём и сроки — и открыть дверь ко всей номенклатуре.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>17</span></div>
+</section>
+
+<!-- 18 S definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Situation</div><h2>Ситуационные: суть на горячем лиде</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill s">S</span> Быстрые вопросы о заявке и объекте.</p>
+      <ul>
+        <li><strong>Цель:</strong> понять контекст, чтобы предложить больше, чем спросили.</li>
+        <li><strong>Правило:</strong> 2–3 вопроса, не допрос. Клиент горячий.</li>
+        <li>Каждый вопрос звучит как <em>забота</em>, а не анкета: «чтобы подобрать оптимально».</li>
+      </ul>
+      <div class="box warn"><div class="t">Не переусердствуйте</div>10 вопросов подряд на входящей = «я тут прайс узнать, а вы допрос устроили». Вплетайте вопросы в разговор о цене.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Оборачивайте в пользу</div>
+      <h3>«Чтобы посчитать точнее и с доставкой — уточню пару моментов»</h3>
+      <p style="margin-top:12px">Так снабженец охотно отвечает: он думает, что вы считаете <u>ему</u> выгоднее.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>18</span></div>
+</section>
+
+<!-- 19 S bank -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Ситуационные вопросы под заявку</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q s"><b>Объект</b>Это на какой объект берёте — стройка, ремонт, перепродажа?</div>
+      <div class="q s"><b>Объём и позиции</b>По арматуре понятно, а что ещё по объекту нужно будет?</div>
+      <div class="q s"><b>Сроки</b>Когда нужна отгрузка — на когда планируете работы?</div>
+      <div class="q s"><b>Доставка</b>Вам самовывоз или доставку на объект посчитать?</div>
+    </div>
+    <div>
+      <div class="q s"><b>Комплект</b>Металл, ЖБИ, кабель — берёте у разных или ищете одного?</div>
+      <div class="q s"><b>Периодичность</b>Это разовая закупка или объект надолго?</div>
+      <div class="q s"><b>Документы</b>Объект требует сертификаты/паспорта качества?</div>
+      <div class="box"><div class="t">Золотой вопрос</div>«А что ещё по объекту в ближайшее время понадобится?» — открывает допродажу всей номенклатуры.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>19</span></div>
+</section>
+
+<!-- 20 S mistake -->
+<section class="slide">
+  <div class="head"><div class="kicker">Осторожно</div><h2>Главная ошибка: цена без квалификации</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="box warn"><div class="t">❌ Как чаще всего</div>— Почём 12-я арматура?<br>— 380 за кг.<br>— Спасибо. <span style="color:var(--muted)">(кладёт трубку, звонит дальше)</span></div>
+      <div class="box good"><div class="t">✅ Как надо</div>— Почём 12-я арматура?<br>— Есть в наличии, по объёму сделаю хорошую цену. Это на объект? Что ещё по нему нужно будет — посчитаю всё сразу с доставкой.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Разница</div>
+      <h3>В первом случае вы — строка в прайсе. Во втором — уже консультант по объекту</h3>
+      <p style="margin-top:12px">Один встречный вопрос меняет весь сценарий разговора и удерживает клиента на линии.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>20</span></div>
+</section>
+
+<!-- 21 S exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 1 · 10 минут</div><h2>Практика: 3 вопроса на заявку</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Возьмите реальную заявку из вчерашних звонков.</li>
+        <li>Напишите <strong>3 ситуационных вопроса</strong>, которые вплетёте в ответ о цене.</li>
+        <li>Каждый оберните в пользу для клиента («чтобы посчитать точнее…»).</li>
+      </ol>
+    </div>
+    <div>
+      <div class="box good"><div class="t">Критерий</div>Хотя бы один вопрос ведёт к <strong>другой номенклатуре</strong> объекта (допродажа).</div>
+      <div class="box"><div class="t">В парах</div>Партнёр играет нетерпеливого снабженца. Ваша цель — задать 3 вопроса так, чтобы он не бросил трубку.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>21</span></div>
+</section>
+
+<!-- 22 SECTION 4: P -->
+<section class="slide section">
+  <div class="kicker">Модуль 4 · буква P</div>
+  <h1><span style="color:var(--p)">Проблемные</span> вопросы:<br>боли снабженца</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Находим, где у клиента болит: сроки, наличие, комплектность, качество, документы, отсрочка.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>22</span></div>
+</section>
+
+<!-- 23 P definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Problem</div><h2>Проблемные: вскрываем недовольство</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill p">P</span> Вопросы о трудностях с текущими закупками и поставщиками.</p>
+      <ul>
+        <li><strong>Цель:</strong> найти, что клиента не устраивает сегодня.</li>
+        <li>Каждая боль = повод показать наш козырь (наличие, сроки, одно окно).</li>
+        <li>Задаём мягко, без критики его текущего поставщика.</li>
+      </ul>
+      <div class="box good"><div class="t">Принцип</div>Не «мы лучше всех», а «а с этим у вас как?» — пусть клиент сам вспомнит проблему.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«А бывает, что…?», «Всё ли устраивает в…?»</h3>
+      <p style="margin-top:12px">Ищем: срывы сроков, отсутствие позиций, пересортицу, проблемы с документами, отказ в отсрочке, сбор по разным поставщикам.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>23</span></div>
+</section>
+
+<!-- 24 P bank -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Проблемные вопросы под нашу сферу</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q p"><b>Наличие</b>Бывает, что нужной позиции у поставщика нет и приходится ждать?</div>
+      <div class="q p"><b>Сроки</b>Всегда ли привозят точно к сроку, без сдвигов графика?</div>
+      <div class="q p"><b>Комплектность</b>Металл, ЖБИ и кабель приходится собирать у разных?</div>
+      <div class="q p"><b>Пересортица</b>Случалось, что привезли не тот диаметр или марку?</div>
+    </div>
+    <div>
+      <div class="q p"><b>Документы</b>С сертификатами и паспортами качества вопросов не возникает?</div>
+      <div class="q p"><b>Отсрочка</b>Текущий поставщик даёт отсрочку под ваши объёмы?</div>
+      <div class="q p"><b>Доставка</b>С доставкой на объект и разгрузкой всё удобно?</div>
+      <div class="q p"><b>Недовоз</b>Бывает недовоз по тоннажу или обрез кабеля не в размер?</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>24</span></div>
+</section>
+
+<!-- 25 P link -->
+<section class="slide">
+  <div class="head"><div class="kicker">Связка</div><h2>От заявки к скрытой боли</h2></div>
+  <div class="body">
+    <div class="dialog">
+      <div class="row"><span class="c">Снабженец:</span> Почём 12-я арматура, 15 тонн?</div>
+      <div class="row"><span class="r">Менеджер:</span> Есть в наличии, посчитаю с доставкой. Это на объект? <span class="tag s">S</span></div>
+      <div class="row"><span class="c">Снабженец:</span> Да, фундамент заливаем.</div>
+      <div class="row"><span class="r">Менеджер:</span> А бетон и плиты на этот же объект у кого берёте? <span class="tag s">S</span></div>
+      <div class="row"><span class="c">Снабженец:</span> Плиты у других, бетон свой.</div>
+      <div class="row"><span class="r">Менеджер:</span> Понял. А бывает, что по разным поставщикам сроки разъезжаются и что-то не успевает к заливке? <span class="tag p">P</span></div>
+      <div class="row"><span class="c">Снабженец:</span> Да постоянно, если честно. Вечно кто-то подводит.</div>
+    </div>
+    <div class="box good"><div class="t">Что произошло</div>За 4 реплики мы вышли с «почём арматура» на реальную боль — <strong>разъезжающиеся сроки у разных поставщиков</strong>. Дальше — извлекающие.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>25</span></div>
+</section>
+
+<!-- 26 P exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 2 · 12 минут</div><h2>Практика: наш козырь → проблемный вопрос</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание «от нашего преимущества к боли»</div>
+      <ol>
+        <li>Возьмите 3 наших козыря (наличие, одно окно, отсрочка…).</li>
+        <li>Для каждого — какую боль клиента он закрывает?</li>
+        <li>Сформулируйте проблемный вопрос, который эту боль вскроет.</li>
+      </ol>
+    </div>
+    <div>
+      <table>
+        <tr><th>Наш козырь</th><th>Проблемный вопрос</th></tr>
+        <tr><td>Наличие на складе</td><td>«Часто приходится ждать позицию под заказ?»</td></tr>
+        <tr><td>Одно окно</td><td>«Металл и ЖБИ у разных берёте — не морока это?»</td></tr>
+        <tr><td>Отсрочка</td><td>«С отсрочкой под ваши объёмы поставщик идёт навстречу?»</td></tr>
+      </table>
+      <div class="box"><div class="t">Итог</div>Готовый банк проблемных вопросов на каждый звонок.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>26</span></div>
+</section>
+
+<!-- 27 SECTION 5: I -->
+<section class="slide section">
+  <div class="kicker">Модуль 5 · буква I</div>
+  <h1><span style="color:var(--i)">Извлекающие</span> вопросы:<br>сколько стоит простой объекта</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Самая мощная часть. Превращаем «бывает, подводят» в «срыв поставки = минус сотни тысяч».</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>27</span></div>
+</section>
+
+<!-- 28 I definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Implication</div><h2>Извлекающие: показываем цену срыва</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill i">I</span> Вопросы о <em>последствиях</em> проблем с поставкой.</p>
+      <ul>
+        <li><strong>Цель:</strong> показать, что срыв стоит куда дороже разницы в цене.</li>
+        <li>Связываем недовоз/просрочку с деньгами, простоем, штрафами, нервами.</li>
+        <li>Именно они <strong>перевешивают</strong> аргумент «а там на 2 тенге дешевле».</li>
+      </ul>
+      <div class="box warn"><div class="t">Почему работает</div>Снабженец привык к мелким срывам и не считает их в деньгах. Извлекающие вопросы заставляют посчитать.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«А если…, то что?», «Во сколько обходится…?», «Кто за это отвечает?»</h3>
+      <p style="margin-top:12px">Разворачиваем одну недостающую позицию в остановку всей стройки.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>28</span></div>
+</section>
+
+<!-- 29 I bank -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Извлекающие вопросы под стройку</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q i"><b>Простой бригады</b>Если арматура не придёт к заливке — бригада простаивает? Во сколько это в день?</div>
+      <div class="q i"><b>Бетон</b>А если бетон заказан, а лить не во что — что с ним, пропадает?</div>
+      <div class="q i"><b>Техника</b>Кран/манипулятор в аренде простаивает — это же тоже деньги?</div>
+    </div>
+    <div>
+      <div class="q i"><b>Сроки сдачи</b>Сдвиг графика грозит неустойкой перед заказчиком?</div>
+      <div class="q i"><b>Пересортица</b>Если привезут не ту марку — бетонирование ведь не примут, переделка?</div>
+      <div class="q i"><b>Ответственность</b>А спросят за срыв с кого — с вас?</div>
+      <div class="q i"><b>Сбор по частям</b>Сколько времени уходит собрать всё у разных и всё состыковать?</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>29</span></div>
+</section>
+
+<!-- 30 I chain -->
+<section class="slide">
+  <div class="head"><div class="kicker">Техника</div><h2>Цепочка последствий: одна позиция → стоп объект</h2></div>
+  <div class="body">
+    <div class="funnel" style="margin-top:8px">
+      <div class="step a2" style="width:66%">Проблема: 12-й арматуры не оказалось вовремя</div>
+      <div class="step a3" style="width:70%">→ Бригада вязальщиков простаивает (платим за простой)</div>
+      <div class="step a3" style="width:74%">→ Заказанный бетон некуда лить — сгорает предоплата</div>
+      <div class="step a3" style="width:78%">→ Арендованный кран стоит впустую</div>
+      <div class="step a3" style="width:82%">→ Сдвиг графика → неустойка генподрядчику</div>
+      <div class="step a3" style="width:86%">→ Снабженцу «прилетает» от директора</div>
+    </div>
+    <div class="box good"><div class="t">Идея</div>«Экономия 2 тенге на кг» на фоне такой цепочки выглядит смешно. Клиент сам это понимает — когда мы задали правильные вопросы.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>30</span></div>
+</section>
+
+<!-- 31 I dialog -->
+<section class="slide">
+  <div class="head"><div class="kicker">Разбор диалога</div><h2>Извлекающие в действии</h2></div>
+  <div class="body dialog">
+    <div class="row"><span class="r">Менеджер:</span> Вы сказали, поставщики по срокам подводят. А что происходит, если позиция не приходит к дню заливки? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Снабженец:</span> Ну, бригада стоит, ждём.</div>
+    <div class="row"><span class="r">Менеджер:</span> Бригада большая? Во сколько примерно обходится день простоя? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Снабженец:</span> Человек восемь… тысяч 150 в день, наверное, с техникой.</div>
+    <div class="row"><span class="r">Менеджер:</span> А бетон в этот день заказан бывает? Если лить некуда? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Снабженец:</span> О, вот это больная тема — миксер развернуть, деньги на ветер.</div>
+    <div class="row"><span class="r">Менеджер:</span> И график ведь сдвигается — перед заказчиком не штрафуют за срыв? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">Снабженец:</span> Штрафуют. И мне потом объяснять директору. Надо это как-то решать уже.</div>
+    <div class="box good" style="margin-top:4px"><div class="t">Итог</div>Клиент сам оценил срыв в сотни тысяч и сказал «надо решать». Теперь наша надёжность стоит своих денег.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>31</span></div>
+</section>
+
+<!-- 32 I exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 3 · 15 минут</div><h2>Практика: посчитайте цену срыва</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Возьмите одну боль клиента (срыв срока / пересортица / сбор по частям).</li>
+        <li>Постройте цепочку из 4 последствий до уровня «деньги / штраф / директор».</li>
+        <li>Сформулируйте 4 извлекающих вопроса по этой цепочке.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="box good"><div class="t">Критерий</div>После ваших вопросов клиент <strong>сам назвал сумму</strong> потерь от срыва.</div>
+      <div class="box"><div class="t">В парах</div>«Снабженец» отвечает честно и в конце оценивает 1–10: захотелось ли ему надёжного поставщика?</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>32</span></div>
+</section>
+
+<!-- 33 SECTION 6: N -->
+<section class="slide section">
+  <div class="kicker">Модуль 6 · буква N</div>
+  <h1><span style="color:var(--n)">Направляющие</span> вопросы:<br>ценность нашего сервиса</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Пусть снабженец сам скажет: «удобно всё взять у вас одной машиной и вовремя».</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>33</span></div>
+</section>
+
+<!-- 34 N definition -->
+<section class="slide">
+  <div class="head"><div class="kicker">Need-payoff</div><h2>Направляющие: клиент продаёт себе сам</h2></div>
+  <div class="body cols">
+    <div>
+      <p><span class="pill n">N</span> Вопросы о пользе решения проблемы.</p>
+      <ul>
+        <li><strong>Цель:</strong> клиент своими словами проговаривает выгоду «одного окна» и надёжности.</li>
+        <li>Переводит скрытую боль в явную потребность именно в нас.</li>
+        <li>Готовит лёгкое согласие и защищает от «а я подумаю».</li>
+      </ul>
+      <div class="box good"><div class="t">Магия</div>Когда снабженец сам сказал «да, было бы удобно всё сразу и вовремя» — он уже наполовину купил.</div>
+    </div>
+    <div class="ex">
+      <div class="k">Формула</div>
+      <h3>«Насколько было бы удобно, если бы…?», «Что бы вам дало…?»</h3>
+      <p style="margin-top:12px">Рисуем желаемую картину: всё с одного склада, день в день, с документами и отсрочкой.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>34</span></div>
+</section>
+
+<!-- 35 N bank -->
+<section class="slide">
+  <div class="head"><div class="kicker">Банк вопросов</div><h2>Направляющие вопросы под наш сервис</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="q n"><b>Одно окно</b>Насколько удобнее было бы брать металл, ЖБИ и кабель у одного поставщика?</div>
+      <div class="q n"><b>Сроки</b>Что бы вам дало, если бы всё гарантированно приходило день в день?</div>
+      <div class="q n"><b>Документы</b>Если все сертификаты сразу и без вопросов — сэкономит вам время?</div>
+    </div>
+    <div>
+      <div class="q n"><b>Отсрочка</b>Насколько важна отсрочка под объём, чтобы не вынимать деньги сразу?</div>
+      <div class="q n"><b>Доставка</b>Если привезём на объект и разгрузим — снимет с вас головную боль?</div>
+      <div class="q n"><b>Надёжность</b>Что для вас значит иметь одного поставщика, за которым не надо следить?</div>
+      <div class="box"><div class="t">Приём</div>«А что ещё было бы удобно?» — пусть клиент назовёт несколько выгод сам.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>35</span></div>
+</section>
+
+<!-- 36 N effect -->
+<section class="slide">
+  <div class="head"><div class="kicker">Эффект</div><h2>Снабженец сам называет наши выгоды</h2></div>
+  <div class="body cols">
+    <div class="dialog">
+      <div class="row"><span class="r">Менеджер:</span> Если бы арматуру, плиты и кабель можно было взять у одного поставщика с доставкой на объект — насколько это было бы удобнее? <span class="tag n">N</span></div>
+      <div class="row"><span class="c">Снабженец:</span> Честно — сильно проще. Один счёт, одна машина, не надо всех стыковать.</div>
+      <div class="row"><span class="r">Менеджер:</span> А что бы это дало по срокам и нервам? <span class="tag n">N</span></div>
+      <div class="row"><span class="c">Снабженец:</span> Да я бы спал спокойно — привезли всё разом, ничего не срывается.</div>
+    </div>
+    <div class="box good"><div class="t">Кто перечислил наши преимущества?</div><strong>Сам клиент.</strong> Нам осталось сказать: «Именно так мы и работаем — давайте посчитаю всё по вашему объекту».</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>36</span></div>
+</section>
+
+<!-- 37 N exercise -->
+<section class="slide">
+  <div class="head"><div class="kicker">Упражнение 4 · 12 минут</div><h2>Практика: направляющие вопросы</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Задание</div>
+      <ol>
+        <li>Возьмите цепочку последствий из упражнения 3.</li>
+        <li>Переверните каждое последствие в выгоду нашего сервиса.</li>
+        <li>Сформулируйте 4 направляющих вопроса, чтобы клиент назвал эти выгоды сам.</li>
+      </ol>
+    </div>
+    <div>
+      <table>
+        <tr><th>Боль (I)</th><th>Направляющий вопрос (N)</th></tr>
+        <tr><td>Простой из-за недовоза</td><td>«Что бы дало гарантированное наличие на складе?»</td></tr>
+        <tr><td>Сбор по 5 поставщикам</td><td>«Насколько удобнее одно окно на весь объект?»</td></tr>
+      </table>
+      <div class="box good"><div class="t">Итог модуля</div>Полный набор S-P-I-N под входящую заявку готов.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>37</span></div>
+</section>
+
+<!-- 38 FULL DIALOG -->
+<section class="slide">
+  <div class="head"><div class="kicker">Кейс целиком</div><h2>От «почём арматура» до «везите всё»</h2></div>
+  <div class="body dialog" style="font-size:15.5px">
+    <div class="row"><span class="c">С:</span> Почём 12-я А500С, тонн 15?</div>
+    <div class="row"><span class="r">М:</span> Есть в наличии, по объёму цена хорошая. На объект берёте? <span class="tag s">S</span></div>
+    <div class="row"><span class="c">С:</span> Да, фундамент.</div>
+    <div class="row"><span class="r">М:</span> А плиты, кабель по этому объекту у кого? <span class="tag s">S</span></div>
+    <div class="row"><span class="c">С:</span> У разных, по мелочи собираю.</div>
+    <div class="row"><span class="r">М:</span> Бывает, что сроки у разных разъезжаются и что-то не успевает? <span class="tag p">P</span></div>
+    <div class="row"><span class="c">С:</span> Постоянно.</div>
+    <div class="row"><span class="r">М:</span> А если к заливке чего-то нет — бригада ведь простаивает? Во сколько в день? <span class="tag i">I</span></div>
+    <div class="row"><span class="c">С:</span> Тысяч 150 с техникой. Плюс бетон девать некуда.</div>
+    <div class="row"><span class="r">М:</span> Насколько было бы удобнее взять всё у одного, одной машиной и день в день? <span class="tag n">N</span></div>
+    <div class="row"><span class="c">С:</span> Сильно проще. А вы и плиты, и кабель возите?</div>
+    <div class="row"><span class="r">М:</span> Да, всё со склада с доставкой и документами. Скиньте список по объекту — посчитаю всё и зарезервирую арматуру уже сегодня. <span style="color:var(--accent2);font-weight:700">→ счёт + резерв</span></div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>38</span></div>
+</section>
+
+<!-- 39 SECTION 7: FAB -->
+<section class="slide section">
+  <div class="kicker">Модуль 7</div>
+  <h1>Наше УТП<br>языком выгод</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Не «у нас большой склад», а «вы не встанете на объекте». Переводим факты в выгоды клиента.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>39</span></div>
+</section>
+
+<!-- 40 FAB -->
+<section class="slide">
+  <div class="head"><div class="kicker">Характеристика → Выгода</div><h2>Говорим не фактами, а результатом клиента</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Характеристика (факт)</th><th>Выгода для снабженца</th></tr>
+      <tr><td>Склад 2000 позиций в наличии</td><td>«Не ждёте под заказ — отгружаем в день обращения, объект не встанет»</td></tr>
+      <tr><td>Металл + ЖБИ + кабель на одном складе</td><td>«Закрываете весь объект одним звонком, одним счётом, одной машиной»</td></tr>
+      <tr><td>Свой транспорт с манипулятором</td><td>«Привезём на объект и разгрузим — вам не искать кран»</td></tr>
+      <tr><td>Отсрочка платежа</td><td>«Берёте сейчас, платите потом — не вынимаете деньги из оборота»</td></tr>
+      <tr><td>Сертификаты и паспорта на всё</td><td>«Пройдёте приёмку и проверку без нервов, документы сразу»</td></tr>
+    </table>
+    <div class="box warn"><div class="t">Правило</div>Выгоду называем <em>под ту боль</em>, которую клиент уже признал в разговоре. Иначе это просто хвастовство.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>40</span></div>
+</section>
+
+<!-- 41 FAB examples by category -->
+<section class="slide">
+  <div class="head"><div class="kicker">По группам товара</div><h2>Выгоды в разговоре о конкретной позиции</h2></div>
+  <div class="body cols3">
+    <div class="card accent"><h3>Металлопрокат</h3><p>«Арматуру нарежем в размер и привезём — бригаде не тратить время на резку».</p><p style="margin-top:6px">Марка, ГОСТ, сертификат — под приёмку.</p></div>
+    <div class="card accent"><h3>ЖБИ</h3><p>«Плиты ПК, ФБС, кольца — с краном-манипулятором, разгрузим на объекте сами».</p><p style="margin-top:6px">Точно к дате монтажа.</p></div>
+    <div class="card accent"><h3>Кабель</h3><p>«ВВГнг, СИП, АВВГ — отрежем нужный метраж, посчитаем по проекту, паспорт приложим».</p><p style="margin-top:6px">Без остатков и пересортицы.</p></div>
+  </div>
+  <div class="box good"><div class="t">Связка допродажи</div>«Раз фундамент — вам под него и арматура, и плиты, и закладной кабель нужны. Давайте посчитаю комплектом — выйдет и удобнее, и по цене интереснее».</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>41</span></div>
+</section>
+
+<!-- 42 upsell -->
+<section class="slide">
+  <div class="head"><div class="kicker">Растим чек</div><h2>Как поднять сумму заявки</h2></div>
+  <div class="body cols">
+    <div>
+      <h3>3 приёма допродажи</h3>
+      <ul>
+        <li><strong>Вся номенклатура объекта:</strong> «что ещё по этому объекту нужно?»</li>
+        <li><strong>Сопутствующее:</strong> к арматуре — вязальная проволока, сетка; к кабелю — гофра, лоток.</li>
+        <li><strong>Запас:</strong> «возьмите с небольшим запасом, чтобы не докупать в срочном порядке дороже».</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Эффект одного вопроса</div>
+      <h3>Заявка на 15 т арматуры → комплект на объект</h3>
+      <p style="margin-top:12px">Вопрос «что ещё по объекту?» регулярно превращает одну позицию в заказ в 2–4 раза больше — и клиенту так удобнее.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>42</span></div>
+</section>
+
+<!-- 43 SECTION 8: OBJECTIONS -->
+<section class="slide section">
+  <div class="kicker">Модуль 8</div>
+  <h1>Возражения<br>горячего лида</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">«Дорого», «просто скиньте прайс», «у нас есть поставщик» — и как на них отвечать.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>43</span></div>
+</section>
+
+<!-- 44 price objection -->
+<section class="slide">
+  <div class="head"><div class="kicker">Возражение №1</div><h2>«У других дешевле»</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="box warn"><div class="t">❌ Нельзя</div>Сразу падать в цене. Это подтверждает «да, я загнул» и запускает торг до нуля маржи.</div>
+      <div class="box good"><div class="t">✅ Возврат на весы</div>Сравнить не цену за кг, а цену срыва — используя цифры, которые клиент сам назвал.</div>
+    </div>
+    <div class="dialog">
+      <div class="row"><span class="c">С:</span> У соседей на 3 тенге дешевле.</div>
+      <div class="row"><span class="r">М:</span> Понимаю, разница на 15 тоннах — тысяч 45. А простой бригады вы сами оценили в 150 в день. Вопрос ведь не в цене за кг, а в том, чтобы всё пришло вовремя и комплектом. У них тоже всё в наличии и с доставкой в день заливки?</div>
+      <div class="row"><span class="c">С:</span> Да у них 12-й как раз под заказ… Ну давайте у вас.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>44</span></div>
+</section>
+
+<!-- 45 send price list -->
+<section class="slide">
+  <div class="head"><div class="kicker">Возражение №2</div><h2>«Просто скиньте прайс / КП на почту»</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Опасность: КП уходит в папку «сравнить» и вы теряете контакт. Задача — <strong>остаться в диалоге</strong> и получить право позвонить.</p>
+      <div class="box good"><div class="t">Как отвечать</div>«Конечно, пришлю. Чтобы КП было точным, а не общим прайсом — на какой объём и на когда считать? И скину сразу с доставкой. Как посмотрите — наберу, отвечу по наличию и срокам».</div>
+    </div>
+    <div class="ex">
+      <div class="k">Смысл</div>
+      <h3>Прайс — обезличен. Расчёт под объект — это уже отношения</h3>
+      <p style="margin-top:12px">Вы уходите от «строки в таблице» к персональному предложению и получаете законный повод перезвонить.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>45</span></div>
+</section>
+
+<!-- 46 only armature -->
+<section class="slide">
+  <div class="head"><div class="kicker">Возражение №3</div><h2>«Мне только арматуру, остальное не надо»</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="box"><div class="t">Не давите</div>Не «а возьмите ещё». Задайте вопрос, который покажет выгоду комплекта <em>ему</em>.</div>
+      <div class="box good"><div class="t">Ход</div>«Без проблем, посчитаю арматуру. Просто уточню на будущее — плиты и кабель по этому объекту когда понадобятся? Если возить вместе, выходит одна доставка вместо трёх и по цене интереснее. Прикинуть комплектом для сравнения?»</div>
+    </div>
+    <div class="ex">
+      <div class="k">Правило</div>
+      <h3>Предлагаем посчитать, а не купить</h3>
+      <p style="margin-top:12px">«Прикинуть для сравнения» — необязывающе. Часто клиент сам выбирает комплект, увидев экономию на доставке и удобство.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>46</span></div>
+</section>
+
+<!-- 47 existing supplier -->
+<section class="slide">
+  <div class="head"><div class="kicker">Возражение №4</div><h2>«У нас уже есть поставщик»</h2></div>
+  <div class="body cols">
+    <div>
+      <p>Не критикуем конкурента. Вопросами ищем щель — то, чего клиенту не хватает.</p>
+      <div class="box good"><div class="t">Ход</div>«Отлично, что есть проверенный. А всё ли у него всегда в наличии и по срокам? Бывает, что чего-то нет? Возьмите нас как запасной вариант — на случай, когда у основного позиции не окажется. Просто попробуйте на одной заявке».</div>
+    </div>
+    <div class="ex">
+      <div class="k">Стратегия «второго поставщика»</div>
+      <h3>Не «вместо», а «на подстраховку»</h3>
+      <p style="margin-top:12px">Зайти вторым — легко (снабженцу это выгодно и безопасно). А дальше — надёжностью и сервисом становимся первым.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>47</span></div>
+</section>
+
+<!-- 48 otsrochka/sert -->
+<section class="slide">
+  <div class="head"><div class="kicker">Возражения №5–6</div><h2>Отсрочка и документы</h2></div>
+  <div class="body cols">
+    <div class="card p"><h3>«Нужна отсрочка»</h3><p>Не «нет». Уточняем: «На какой срок и объём? Под регулярные заявки обсудим отсрочку — это как раз повод работать постоянно, а не разово».</p><p style="margin-top:8px">Отсрочка = крючок на долгие отношения.</p></div>
+    <div class="card s"><h3>«А сертификаты есть?»</h3><p>«Да, на всё — паспорта качества, сертификаты соответствия, ГОСТ. Пришлю вместе с расчётом, чтобы прошли приёмку без вопросов».</p><p style="margin-top:8px">Документы = наше преимущество, подаём как заботу.</p></div>
+  </div>
+  <div class="box good"><div class="t">Принцип</div>Любое возражение — это <strong>вопрос клиента</strong>, а не «нет». Отвечаем через выгоду и возвращаем инициативу вопросом.</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>48</span></div>
+</section>
+
+<!-- 49 scripts table -->
+<section class="slide">
+  <div class="head"><div class="kicker">Шпаргалка</div><h2>Скрипты ответов на возражения</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Возражение</th><th>Ответ</th></tr>
+      <tr><td>«Дорого / дешевле есть»</td><td>«Разница — Х тенге. А простой из-за недовоза вы оценили в Y. У них всё в наличии и с доставкой в срок?»</td></tr>
+      <tr><td>«Скиньте прайс»</td><td>«Пришлю расчёт под ваш объём и с доставкой. На когда считать? Посмотрите — наберу по наличию»</td></tr>
+      <tr><td>«Только арматуру»</td><td>«Посчитаю. А комплектом с плитами/кабелем прикинуть для сравнения — одна доставка вместо трёх»</td></tr>
+      <tr><td>«Есть поставщик»</td><td>«Возьмите вторым, на подстраховку — когда у основного позиции нет. Попробуйте на одной заявке»</td></tr>
+      <tr><td>«Надо подумать»</td><td>«Конечно. Что взвесить — цену, сроки или наличие? Зарезервирую за вами на сутки, чтоб не разобрали»</td></tr>
+    </table>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>49</span></div>
+</section>
+
+<!-- 50 SECTION 9: CLOSING -->
+<section class="slide section">
+  <div class="kicker">Модуль 9</div>
+  <h1>Закрытие:<br>счёт и резерв<br>вместо «отправлю на почту»</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Горячий лид нельзя отпускать в пустоту. Выходим на конкретный следующий шаг.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>50</span></div>
+</section>
+
+<!-- 51 outcomes -->
+<section class="slide">
+  <div class="head"><div class="kicker">Чем закончить звонок</div><h2>Прогресс, а не «я подумаю»</h2></div>
+  <div class="body cols">
+    <div class="card n"><h3>✅ Прогресс — двигает сделку</h3><ul><li>Выставили счёт</li><li>Зарезервировали позицию на складе</li><li>Договорились о времени доставки/замера</li><li>Взяли список по объекту на расчёт</li></ul><p style="margin-top:6px"><em>Есть действие и срок.</em></p></div>
+    <div class="card p"><h3>⏸️ Отсрочка — иллюзия</h3><ul><li>«Отправьте на почту, мы посмотрим»</li><li>«Я перезвоню»</li><li>«Надо согласовать»</li></ul><p style="margin-top:6px"><em>Ни счёта, ни резерва, ни срока.</em></p></div>
+  </div>
+  <div class="box good"><div class="t">Цель каждого входящего звонка</div>Не «назвал цену», а <strong>выставленный счёт + резерв на складе</strong>. Это и есть закрытие горячего лида.</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>51</span></div>
+</section>
+
+<!-- 52 reserve technique -->
+<section class="slide">
+  <div class="head"><div class="kicker">Техника</div><h2>Фиксация: резерв + счёт + срок</h2></div>
+  <div class="body cols">
+    <div>
+      <div class="card accent"><h3>1 · Резюме выгод словами клиента</h3><p>«Итак, вам важно, чтобы всё пришло к заливке и комплектом…»</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>2 · Предложите резерв</h3><p>«Зарезервирую 12-ю за вами на складе на сегодня, чтоб не разобрали — объём хороший».</p></div>
+    </div>
+    <div>
+      <div class="card accent"><h3>3 · Выставьте счёт сразу</h3><p>«Скину счёт на почту/WhatsApp за 5 минут — реквизиты продиктуете?»</p></div>
+      <div class="card accent" style="margin-top:10px"><h3>4 · Назначьте следующий контакт</h3><p>«Завтра в 10 наберу подтвердить отгрузку и доставку».</p></div>
+    </div>
+  </div>
+  <div class="box good"><div class="t">Почему работает</div>Резерв создаёт лёгкий дефицит («разберут»), счёт превращает разговор в сделку, а звонок-контроль не даёт клиенту «остыть».</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>52</span></div>
+</section>
+
+<!-- 53 revive -->
+<section class="slide">
+  <div class="head"><div class="kicker">Не теряем</div><h2>Что делать, если клиент «ушёл думать»</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>Взять <strong>обязательство перезвонить</strong>: «Когда вам удобно — сегодня к вечеру или завтра утром?»</li>
+        <li>Оставить <strong>крючок</strong>: резерв на сутки, актуальная цена «до конца дня».</li>
+        <li>Записать в CRM <strong>суть боли</strong> и договорённость — не начинать в следующий раз с нуля.</li>
+      </ul>
+    </div>
+    <div class="ex">
+      <div class="k">Follow-up, который возвращает</div>
+      <h3>«Иван, по вашему объекту зарезервировал арматуру и посчитал плиты — скинуть?»</h3>
+      <p style="margin-top:12px">Конкретика и польза, а не «ну что, надумали?». Такой повторный контакт возвращает часть «зависших» заявок.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>53</span></div>
+</section>
+
+<!-- 54 SECTION 10: SCRIPT -->
+<section class="slide section">
+  <div class="kicker">Модуль 10</div>
+  <h1>Скрипт входящего<br>звонка по заявке</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Готовая структура разговора: от приветствия до счёта. Плюс карточка в CRM.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>54</span></div>
+</section>
+
+<!-- 55 script structure -->
+<section class="slide">
+  <div class="head"><div class="kicker">Этапы разговора</div><h2>Структура идеального входящего звонка</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li><strong>1. Приветствие + имя.</strong> «Компания N, Азамат. Как к вам обращаться?»</li>
+        <li><strong>2. Принять запрос + показать наличие.</strong> «12-я есть, посчитаю с доставкой».</li>
+        <li><strong>3. Квалификация <span class="pill s">S</span>.</strong> Объект, объём, срок, что ещё нужно.</li>
+        <li><strong>4. Боли <span class="pill p">P</span> + последствия <span class="pill i">I</span>.</strong> Сроки, комплект, простой.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong>5. Ценность <span class="pill n">N</span>.</strong> Одно окно, надёжность — словами клиента.</li>
+        <li><strong>6. Предложение выгодами.</strong> Под признанные боли.</li>
+        <li><strong>7. Работа с возражениями.</strong> Через весы «цена/риск».</li>
+        <li><strong>8. Закрытие.</strong> Резерв + счёт + срок следующего контакта.</li>
+      </ul>
+      <div class="box"><div class="t">Помните</div>Имя клиента + имя объекта = вы уже не безликий прайс.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>55</span></div>
+</section>
+
+<!-- 56 checklist -->
+<section class="slide">
+  <div class="head"><div class="kicker">Самоконтроль</div><h2>Чек-лист менеджера на звонке</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>☐ Узнал имя клиента</li>
+        <li>☐ Показал наличие вместо сухой цены</li>
+        <li>☐ Задал 2–3 ситуационных (объект, срок)</li>
+        <li>☐ Спросил «что ещё по объекту?»</li>
+        <li>☐ Нашёл минимум одну боль</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>☐ Задал извлекающий (цена срыва)</li>
+        <li>☐ Клиент сам назвал выгоду одного окна</li>
+        <li>☐ Предложил комплект / допродажу</li>
+        <li>☐ Зарезервировал позицию</li>
+        <li>☐ Выставил счёт и назначил следующий контакт</li>
+      </ul>
+      <div class="box good"><div class="t">Норма</div>8+ галочек из 10 = звонок отработан на СПИН, а не «назвал цену».</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>56</span></div>
+</section>
+
+<!-- 57 CRM card -->
+<section class="slide">
+  <div class="head"><div class="kicker">После звонка</div><h2>Что зафиксировать в CRM по заявке</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Поле</th><th>Что записать</th></tr>
+      <tr><td>Клиент / объект</td><td>Имя, компания, что за объект, роль (снабженец/прораб)</td></tr>
+      <tr><td>Заявка</td><td>Позиции, объём, сроки отгрузки</td></tr>
+      <tr><td>Боль</td><td>Что не устраивает сейчас (срок/наличие/комплект/поставщик)</td></tr>
+      <tr><td>Потенциал объекта</td><td>Что ещё понадобится (плиты, кабель, доп. металл)</td></tr>
+      <tr><td>Договорённость</td><td>Резерв, счёт №, дата следующего контакта</td></tr>
+    </table>
+    <div class="box"><div class="t">Зачем</div>Следующий звонок начинаете не с «здравствуйте, что хотели», а с «Иван, по вашему фундаменту…». Это резко повышает возврат заявок.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>57</span></div>
+</section>
+
+<!-- 58 SECTION 11: PRACTICE -->
+<section class="slide section">
+  <div class="kicker">Модуль 11</div>
+  <h1>Практика:<br>ролевые игры<br>на наших заявках</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Собираем всё вместе на реальных сценариях входящих звонков.</p>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>58</span></div>
+</section>
+
+<!-- 59 role play 1 -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ролевая игра 1 · 20 минут</div><h2>«Дайте цену на 15 тонн арматуры»</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Роли</div>
+      <ul>
+        <li><strong>Менеджер</strong> — ведёт входящий по скрипту СПИН.</li>
+        <li><strong>Снабженец</strong> — торопится, хочет только цену, у него фундамент.</li>
+        <li><strong>Наблюдатель</strong> — отмечает вопросы по чек-листу.</li>
+      </ul>
+      <p style="margin-top:8px">Меняйтесь ролями каждые 7 минут.</p>
+    </div>
+    <div>
+      <div class="box"><div class="t">Легенда снабженца</div>Объект — фундамент. Кроме арматуры нужны плиты и закладной кабель, но вы об этом сразу не говорите. Поставщики иногда срывают сроки. Раскрываетесь под хорошими вопросами.</div>
+      <div class="box good"><div class="t">Задача менеджера</div>Довести до счёта + резерва и хотя бы прикинуть комплект по объекту.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>59</span></div>
+</section>
+
+<!-- 60 role play 2 -->
+<section class="slide">
+  <div class="head"><div class="kicker">Ролевая игра 2 · 20 минут</div><h2>«У нас есть поставщик, я прицениваюсь»</h2></div>
+  <div class="body cols">
+    <div class="ex">
+      <div class="k">Вводная</div>
+      <p>Снабженец доволен текущим поставщиком и просто мониторит цены. Задача — не критиковать конкурента, а вопросами найти щель (наличие/сроки/комплект) и зайти «вторым поставщиком».</p>
+    </div>
+    <div>
+      <div class="box"><div class="t">Запрещено</div>❌ «У нас лучше» ❌ демпинг с ходу ❌ называть голую цену и молчать.</div>
+      <div class="box good"><div class="t">Цель — прогресс</div>Договориться попробовать нас на одной заявке или взять на подстраховку. Взять контакт и повод перезвонить.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>60</span></div>
+</section>
+
+<!-- 61 observer checklist -->
+<section class="slide">
+  <div class="head"><div class="kicker">Инструмент</div><h2>Чек-лист наблюдателя</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li><span class="pill s">S</span> Квалифицировал заявку, не допрашивал? ☐☐☐</li>
+        <li><span class="pill p">P</span> Нашёл боль (сроки/наличие/комплект)? ☐☐☐</li>
+        <li><span class="pill i">I</span> Показал цену срыва? ☐☐☐</li>
+        <li><span class="pill n">N</span> Клиент сам назвал выгоду? ☐☐☐</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box"><div class="t">Оцените 1–5</div>
+        <ul>
+          <li>Не свалился сразу в цену?</li>
+          <li>Расширил заявку на объект?</li>
+          <li>Отработал возражение через весы «цена/риск»?</li>
+          <li>Закрыл на резерв/счёт?</li>
+        </ul>
+      </div>
+      <div class="box good"><div class="t">Обратная связь</div>Сначала — что сильно, потом одна зона роста. Конкретно.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>61</span></div>
+</section>
+
+<!-- 62 common mistakes -->
+<section class="slide">
+  <div class="head"><div class="kicker">Работа над ошибками</div><h2>7 ошибок на горячих лидах</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>1. Назвал цену и замолчал.</li>
+        <li>2. Не спросил про объект и остальную номенклатуру.</li>
+        <li>3. Сразу дал скидку при слове «дорого».</li>
+        <li>4. Пропустил извлекающие — не показал цену срыва.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>5. Отпустил «на почту» без резерва и счёта.</li>
+        <li>6. Спорил с текущим поставщиком клиента.</li>
+        <li>7. Не записал заявку в CRM — потерял след.</li>
+      </ul>
+      <div class="box good"><div class="t">Противоядие</div>Всегда: наличие вместо голой цены → вопрос про объект → резерв и счёт → запись в CRM.</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>62</span></div>
+</section>
+
+<!-- 63 cheat sheet -->
+<section class="slide">
+  <div class="head"><div class="kicker">Забирай с собой</div><h2>Шпаргалка СПИН на входящий звонок</h2></div>
+  <div class="body">
+    <table>
+      <tr><th>Тип</th><th>Цель</th><th>Пример под нашу сферу</th></tr>
+      <tr><td><span class="pill s">S</span></td><td>Понять заявку</td><td>«На какой объект? Что ещё по нему нужно? На когда?»</td></tr>
+      <tr><td><span class="pill p">P</span></td><td>Найти боль</td><td>«Бывает, поставщик срывает срок? Всё в наличии?»</td></tr>
+      <tr><td><span class="pill i">I</span></td><td>Цена срыва</td><td>«Если не привезут к заливке — во сколько простой?»</td></tr>
+      <tr><td><span class="pill n">N</span></td><td>Ценность</td><td>«Насколько удобнее всё у одного, вовремя и с документами?»</td></tr>
+    </table>
+    <div class="box"><div class="t">Правило одной строки</div>Наличие вместо голой цены → вопрос про объект → цена срыва → одно окно → резерв + счёт.</div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>63</span></div>
+</section>
+
+<!-- 64 rollout -->
+<section class="slide">
+  <div class="head"><div class="kicker">Внедрение</div><h2>План освоения: 30 / 60 / 90 дней</h2></div>
+  <div class="body cols3">
+    <div class="card s"><h3>30 дней</h3><ul><li>Скрипт входящего у каждого перед глазами</li><li>Всегда задавать «что ещё по объекту?»</li><li>Каждую заявку писать в CRM</li></ul></div>
+    <div class="card i"><h3>31–60 дней</h3><ul><li>Отработать извлекающие (цена срыва)</li><li>Считать средний чек и % допродаж</li><li>Возвращать «зависшие» заявки follow-up'ом</li></ul></div>
+    <div class="card n"><h3>61–90 дней</h3><ul><li>Автоматизм всех 4 типов вопросов</li><li>Заходить «вторым поставщиком» к чужим клиентам</li><li>Замер: конверсия заявок и рост чека</li></ul></div>
+  </div>
+  <div class="box good"><div class="t">Метрики</div>Конверсия «заявка → счёт», средний чек, % заявок с допродажей комплекта, доля повторных клиентов.</div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>64</span></div>
+</section>
+
+<!-- 65 takeaways -->
+<section class="slide">
+  <div class="head"><div class="kicker">Итоги</div><h2>Главные выводы тренинга</h2></div>
+  <div class="body cols">
+    <div>
+      <ul>
+        <li>1. Голая цена делает нас строкой в прайсе — задаём вопросы.</li>
+        <li>2. «Что ещё по объекту?» — растит чек и держит клиента.</li>
+        <li>3. Извлекающие вопросы бьют аргумент «дешевле есть».</li>
+        <li>4. Пусть клиент сам назовёт выгоду одного окна.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>5. Говорим выгодами: «объект не встанет», а не «большой склад».</li>
+        <li>6. «Есть поставщик» — заходим вторым, на подстраховку.</li>
+        <li>7. Звонок закрываем резервом и счётом, а не «на почту».</li>
+      </ul>
+      <div class="box good"><div class="t">Одна фраза</div>«Продаём не арматуру — продаём спокойный, вовремя закрытый объект».</div>
+    </div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель</span><span>65</span></div>
+</section>
+
+<!-- 66 thanks -->
+<section class="slide title">
+  <div class="kicker">Спасибо за работу</div>
+  <h1>Теперь входящая заявка —<br>это <span style="color:var(--accent)">весь объект</span>, а не строка в прайсе</h1>
+  <p class="lead" style="color:rgba(255,255,255,.85)">Наличие вместо голой цены → вопросы про объект → цена срыва → одно окно → резерв и счёт. Пробуйте на первом же звонке — результат вы увидите сразу.</p>
+  <div class="stat">
+    <div><div class="n">S</div><div class="l">заявка</div></div>
+    <div><div class="n">P</div><div class="l">боль</div></div>
+    <div><div class="n">I</div><div class="l">цена срыва</div></div>
+    <div><div class="n">N</div><div class="l">одно окно</div></div>
+  </div>
+  <div class="footer"><span>Металлопрокат · ЖБИ · Кабель · СПИН</span><span>66 / 66</span></div>
+</section>
+
+</div>
+
+<div class="ctl">
+  <button id="prev">‹ Назад</button>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">66</span></span>
+  <button id="next">Вперёд ›</button>
+</div>
+
+<script>
+  const deck=document.getElementById('deck');
+  let slides=[],idx=0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+    document.getElementById('cur').textContent=idx+1;
+    document.getElementById('tot').textContent=slides.length;
+    document.getElementById('prog').style.width=((idx+1)/slides.length*100)+'%';
+    location.hash=idx+1;
+  }
+  function go(n){idx=Math.max(0,Math.min(slides.length-1,n));render();}
+  document.getElementById('next').onclick=()=>go(idx+1);
+  document.getElementById('prev').onclick=()=>go(idx-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(idx+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(idx-1);}
+    else if(e.key==='Home')go(0);
+    else if(e.key==='End')go(slides.length-1);
+    else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+    else if(e.key.toLowerCase()==='p')window.print();
+  });
+  function init(){
+    slides=[...deck.querySelectorAll('.slide')];
+    const h=parseInt(location.hash.replace('#',''))||1;
+    idx=Math.min(slides.length-1,Math.max(0,h-1));
+    render();
+  }
+  window.addEventListener('load',init);
+</script>
+</body>
+</html>
