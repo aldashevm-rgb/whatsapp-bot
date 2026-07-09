@@ -3,7 +3,10 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-const SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по продажам компании SPECTO.
+// Промпт по умолчанию (SPECTO). Каждый проект (SPECTO / WST / …) может задать
+// свой промпт через переменную окружения SYSTEM_PROMPT — тогда используется он.
+// В тексте из env можно вставлять {{CALENDLY}} — подставится ссылка на созвон.
+const DEFAULT_SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по продажам компании SPECTO.
 Система роста продаж под ключ. Оплата ТОЛЬКО 10% с продаж. Без фиксов.
 Работаем с мебелью, строительством, недвижимостью, производством, медициной, авто, B2B.
 Кейсы: STALFED +278% выручки за 6 мес, Monaco Detailing +189%.
@@ -18,7 +21,11 @@ const SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по 
 - Если говорит дорого — объясни что 10% только с продаж, риска нет
 - Если говорит подумаю — спроси что смущает
 - Закрывай: Когда удобно созвониться на 20 минут? ${calendlyLink}
-- Если не нужно — вежливо попрощайся
+- Если не нужно — вежливо попрощайся`;
+
+// Анти-утечка-правила подставляются ВСЕГДА — к любому промпту (и env, и дефолтному).
+// Клиент никогда не должен видеть рассуждения модели.
+const FORMAT_GUARDRAIL = `
 
 ФОРМАТ ОТВЕТА (строго):
 - В ответе — ТОЛЬКО готовый текст сообщения клиенту, слово в слово как он его увидит.
@@ -26,6 +33,14 @@ const SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по 
 - НИКАКИХ служебных пометок, разделителей "---", markdown-звёздочек *...*.
 - Не пиши «отправлять дожим уместно/неуместно», «единственный вариант», «если прошло время» и подобное — это внутренняя кухня, клиент её видеть не должен.
 - Просто напиши сообщение, которое отправится клиенту напрямую.`;
+
+function buildSystemPrompt(calendlyLink) {
+  const custom = process.env.SYSTEM_PROMPT;
+  const base = (custom && custom.trim())
+    ? custom.replaceAll("{{CALENDLY}}", calendlyLink || "")
+    : DEFAULT_SYSTEM_PROMPT(calendlyLink);
+  return base + FORMAT_GUARDRAIL;
+}
 
 // --- Защита от утечки «внутренней кухни» модели в чат клиента ---
 // Даже если промпт «разболтается» и модель начнёт рассуждать вслух (анализ,
@@ -102,7 +117,7 @@ export async function askClaude(userMessage, history = [], calendlyLink = "") {
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 500,
-        system: SYSTEM_PROMPT(calendlyLink),
+        system: buildSystemPrompt(calendlyLink),
         messages: [...history, { role: "user", content: userMessage }]
       })
     });
