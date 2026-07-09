@@ -18,7 +18,77 @@ const SYSTEM_PROMPT = (calendlyLink) => `Ты Алина, менеджер по 
 - Если говорит дорого — объясни что 10% только с продаж, риска нет
 - Если говорит подумаю — спроси что смущает
 - Закрывай: Когда удобно созвониться на 20 минут? ${calendlyLink}
-- Если не нужно — вежливо попрощайся`;
+- Если не нужно — вежливо попрощайся
+
+ФОРМАТ ОТВЕТА (строго):
+- В ответе — ТОЛЬКО готовый текст сообщения клиенту, слово в слово как он его увидит.
+- НИКАКОГО анализа переписки, рассуждений, объяснений своих решений.
+- НИКАКИХ служебных пометок, разделителей "---", markdown-звёздочек *...*.
+- Не пиши «отправлять дожим уместно/неуместно», «единственный вариант», «если прошло время» и подобное — это внутренняя кухня, клиент её видеть не должен.
+- Просто напиши сообщение, которое отправится клиенту напрямую.`;
+
+// --- Защита от утечки «внутренней кухни» модели в чат клиента ---
+// Даже если промпт «разболтается» и модель начнёт рассуждать вслух (анализ,
+// разделители ---, служебные пометки), этот фильтр вырежет всё, кроме самого
+// сообщения клиенту. Если чистое сообщение выделить не удалось — вернём
+// нейтральную заглушку, но НИКОГДА не отправим клиенту рассуждения.
+
+const SEP_RE = /^\s*-{3,}\s*$/;
+const GREETING_RE = /(добрый день|день добрый|добрый вечер|доброе утро|здравствуй|привет)/i;
+
+// Обороты, которые выдают рассуждение/инструкцию самой себе, а не речь клиенту.
+const META_MARKERS = [
+  /в данном случае/i,
+  /диалог(?:\s+\S+){0,3}\s+заверш/i,
+  /отправлять\s+дожим/i,
+  /дожим\s+здесь/i,
+  /\bнеуместно\b/i,
+  /единственн\S*\s+разумн\S*\s+вариант/i,
+  /\bнавязчив/i,
+  /лучше\s+не\s+писать/i,
+  /если\s+времени\s+прошло/i,
+  /\bреферал\b/i,
+  /\breferal\b/i
+];
+
+function looksLikeMeta(s) {
+  if (/\*[^*\n]+\*/.test(s)) return true;            // *жирная служебная пометка*
+  return META_MARKERS.some(re => re.test(s));
+}
+
+export const SAFE_FALLBACK = "Секунду, уточню детали и вернусь к вам 🙏";
+
+// Чистая функция (тестируется без сети): сырой ответ модели → текст для клиента.
+export function sanitizeReply(raw) {
+  const text = (raw == null ? "" : String(raw)).trim();
+  if (!text) return SAFE_FALLBACK;
+
+  const lines = text.split(/\r?\n/);
+  const hasSeparator = lines.some(l => SEP_RE.test(l));
+  // Чистый обычный ответ — не трогаем.
+  if (!hasSeparator && !looksLikeMeta(text)) return text;
+
+  // Разбиваем по разделителям --- и выкидываем «мета»-сегменты.
+  const segments = [];
+  let cur = [];
+  for (const l of lines) {
+    if (SEP_RE.test(l)) { segments.push(cur.join("\n").trim()); cur = []; }
+    else cur.push(l);
+  }
+  segments.push(cur.join("\n").trim());
+
+  const clean = segments.filter(s => s && !looksLikeMeta(s));
+  // Сообщение клиенту обычно начинается с приветствия — предпочитаем такой сегмент.
+  const greeted = clean.filter(s => GREETING_RE.test(s));
+  const candidates = greeted.length ? greeted : clean;
+
+  if (candidates.length === 1) return candidates[0];
+  if (candidates.length > 1) {
+    return candidates.sort((a, b) => b.length - a.length)[0];
+  }
+  // Ничего чистого не осталось — лучше нейтральная заглушка, чем «кухня».
+  return SAFE_FALLBACK;
+}
 
 export async function askClaude(userMessage, history = [], calendlyLink = "") {
   try {
@@ -37,7 +107,10 @@ export async function askClaude(userMessage, history = [], calendlyLink = "") {
       })
     });
     const data = await res.json();
-    return data.content?.[0]?.text || "Попробуйте позже.";
+    const rawText = data.content?.[0]?.text;
+    if (!rawText) return "Попробуйте позже.";
+    // Страховка: клиенту уходит только сообщение, без рассуждений модели.
+    return sanitizeReply(rawText);
   } catch (err) {
     console.error("Ошибка Claude:", err);
     return "Технические неполадки, напишите позже!";
